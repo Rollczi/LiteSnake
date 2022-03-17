@@ -1,0 +1,3 @@
+rootProject.name = 'LiteSnake'
+include 'snake-engine'
+
