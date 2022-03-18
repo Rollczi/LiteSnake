@@ -2,4 +2,6 @@
 /.gradle/
 /snake-engine/build/
 /snake-engine/build/classes/java/main/
-.idea
+.idea/
+.gradle/
+build/
