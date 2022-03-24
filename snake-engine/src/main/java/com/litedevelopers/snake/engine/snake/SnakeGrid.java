@@ -5,10 +5,10 @@ import com.litedevelopers.snake.engine.math.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SnakeGrid implements Snake{
+public class SnakeGrid implements Snake {
 
     private final String name;
-    private final BodyHead head;
+    private BodyHead head;
     private final List<BodyPart> bodyParts = new ArrayList<>();
     private final double partSize;
 
@@ -40,17 +40,17 @@ public class SnakeGrid implements Snake{
         Position previousHeadPosition = this.head.getMinPosition();
 
         this.grow(previousHeadPosition);
-        this.head.setPosition(position);
+        this.head = this.head.move(position);
     }
 
     @Override
-    public double getLength() {
+    public int getLength() {
         return this.bodyParts.size() + 1;
     }
 
     @Override
     public void setHeadPosition(Position position) {
-        this.head.setPosition(position);
+        this.head = this.head.move(position);
     }
 
     @Override

@@ -8,11 +8,11 @@ public interface Snake {
 
     String getName();
 
-    void move(Position position);
+    void move(Position position); // TODO: Przyjmować prędkość i kierunek ruchu
 
     void moveWithApple(Position position);
 
-    double getLength();
+    int getLength();
 
     void setHeadPosition(Position position);
 
