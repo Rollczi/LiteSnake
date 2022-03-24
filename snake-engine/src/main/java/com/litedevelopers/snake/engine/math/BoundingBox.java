@@ -10,11 +10,17 @@ public class BoundingBox {
         this.max = max;
     }
 
-    public Position getMin() {
+    public BoundingBox move(Position position) {
+        Position difference = this.min.subtract(this.max);
+
+        return new BoundingBox(position, position.add(difference));
+    }
+
+    public Position getMinPosition() {
         return min;
     }
 
-    public Position getMax() {
+    public Position getMaxPosition() {
         return max;
     }
 
@@ -30,4 +36,11 @@ public class BoundingBox {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "BoundingBox{" +
+                "min=" + min +
+                ", max=" + max +
+                '}';
+    }
 }
