@@ -2,6 +2,7 @@ package com.litedevelopers.snake.engine.snake;
 
 import com.litedevelopers.snake.engine.math.BoundingBox;
 import com.litedevelopers.snake.engine.math.Position;
+import com.litedevelopers.snake.engine.snake.listener.SnakeBreakListener;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,15 +30,13 @@ public class SnakeMap extends BoundingBox {
 
         Snake snake = new SnakeFreeInSpace(name);
 
-        snake.setPosition(min);
-        snake.addMoveLister(s -> {
-            if (!this.contains(snake.getPosition())) {
-                snake.breakSnake();
-            }
-        });
-
         snakes.add(snake);
         snakesByName.put(name, snake);
+
+
+
+
+
 
         return snake;
     }

@@ -1,25 +1,22 @@
 package com.litedevelopers.snake.engine.snake;
 
-import com.litedevelopers.snake.engine.snake.listener.SnakeBreakListener;
-import com.litedevelopers.snake.engine.snake.listener.SnakeMoveListener;
 import com.litedevelopers.snake.engine.math.Position;
 
+import java.util.List;
+
 public interface Snake {
+
     String getName();
 
-    Position getPosition();
+    void move(Position position);
 
-    void setPosition(Position position);
+    void moveWithApple(Position position);
 
-    int getTailLength();
+    double getLength();
 
-    void setTailLength(int tailLength);
+    void setHeadPosition(Position position);
 
-    void addMoveLister(SnakeMoveListener listener);
+    Position getHeadPosition();
 
-    void addBreakLister(SnakeBreakListener listener);
-
-    void breakSnake();
-
-    void moveTo(Position position);
+    List<Position> getPosition();
 }

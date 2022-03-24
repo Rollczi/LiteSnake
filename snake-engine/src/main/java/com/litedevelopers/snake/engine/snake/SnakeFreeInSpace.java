@@ -1,20 +1,12 @@
 package com.litedevelopers.snake.engine.snake;
 
-import com.litedevelopers.snake.engine.snake.listener.SnakeBreakListener;
-import com.litedevelopers.snake.engine.snake.listener.SnakeMoveListener;
 import com.litedevelopers.snake.engine.math.Position;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class SnakeFreeInSpace implements Snake {
 
     private final String name;
-    private Position position = new Position(0, 0);
-    private int tailLength = 1;
-
-    private final Set<SnakeMoveListener> moveListeners = new HashSet<>();
-    private final Set<SnakeBreakListener> breakListeners = new HashSet<>();
 
     SnakeFreeInSpace(String name) {
         this.name = name;
@@ -26,49 +18,34 @@ public class SnakeFreeInSpace implements Snake {
     }
 
     @Override
-    public Position getPosition() {
-        return this.position;
+    public void move(Position position) {
+
     }
 
     @Override
-    public void setPosition(Position position) {
-        this.position = position;
+    public void moveWithApple(Position position) {
+
     }
 
     @Override
-    public int getTailLength() { // Imperium
-        return tailLength;
+    public double getLength() {
+        return 0;
     }
 
     @Override
-    public void setTailLength(int tailLength) {
-        this.tailLength = tailLength;
+    public void setHeadPosition(Position position) {
+
     }
 
     @Override
-    public void addMoveLister(SnakeMoveListener listener) {
-        this.moveListeners.add(listener);
+    public Position getHeadPosition() {
+        return null;
     }
 
     @Override
-    public void addBreakLister(SnakeBreakListener listener) {
-        this.breakListeners.add(listener);
+    public List<Position> getPosition() {
+        return null;
     }
 
-    @Override
-    public void breakSnake() {
-        for (SnakeBreakListener listener : this.breakListeners) {
-            listener.handle(this);
-        }
-    }
-
-    @Override
-    public void moveTo(Position position) {
-
-        this.position = position;
-        for (SnakeMoveListener listener : this.moveListeners) {
-            listener.handle(this);
-        }
-    }
 
 }
