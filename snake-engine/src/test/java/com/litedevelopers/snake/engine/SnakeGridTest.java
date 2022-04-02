@@ -2,10 +2,14 @@ package com.litedevelopers.snake.engine;
 
 import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.snake.SnakeGrid;
+import org.junit.jupiter.api.Test;
 
-public class Tests {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    public static void main(String[] args) {
+public class SnakeGridTest {
+
+    @Test
+    public void moveTest() {
         SnakeGrid snake = new SnakeGrid("Kamil Ślimak", 1);
 
         snake.moveWithApple(new Position(1.5,0.3));
@@ -13,6 +17,10 @@ public class Tests {
         snake.moveWithApple(new Position(2.5, 1.6));
         snake.move(new Position(3.3, 1.6));
 
-        System.out.println(snake);
+        assertEquals(snake.getHeadPosition().getX(), 3.3);
+        assertEquals(snake.getHeadPosition().getY(), 1.6);
+
+        assertEquals(snake.getLength(), 3);
     }
+
 }
