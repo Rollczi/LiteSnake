@@ -1,6 +1,6 @@
 package com.litedevelopers.snake.engine;
 
-import com.litedevelopers.snake.engine.math.Position;
+import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.snake.SnakeGrid;
 import org.junit.jupiter.api.Test;
 
@@ -9,18 +9,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SnakeGridTest {
 
     @Test
-    public void moveTest() {
+    public void testGetGrid() {
         SnakeGrid snake = new SnakeGrid("Kamil Ślimak", 1);
 
-        snake.moveWithApple(new Position(1.5,0.3));
-        snake.move(new Position(1.5, 1.4));
-        snake.moveWithApple(new Position(2.5, 1.6));
-        snake.move(new Position(3.3, 1.6));
+        System.out.println(snake.getHead().getCenter());
+        snake.move(Direction.DOWN);
+        snake.move(Direction.DOWN);
 
-        assertEquals(snake.getHeadPosition().getX(), 3.3);
-        assertEquals(snake.getHeadPosition().getY(), 1.6);
+        snake.move(Direction.RIGHT);
+        snake.moveWithApple();
+        snake.move();
 
-        assertEquals(snake.getLength(), 3);
+        snake.move(Direction.UP);
+        snake.move();
+        snake.moveWithApple();
+        snake.move();
+        snake.moveWithApple();
+        snake.move();
+
+        assertEquals(snake.getHead().getCenter().getX(), 3);
+        assertEquals(snake.getHead().getCenter().getY(), 4);
+        assertEquals(snake.getBodyParts().size(), 3);
+        assertEquals(snake.getLength(), 4);
+        assertEquals(snake.getDirection(), Direction.UP);
+        assertEquals(snake.getName(), "Kamil Ślimak");
     }
-
 }

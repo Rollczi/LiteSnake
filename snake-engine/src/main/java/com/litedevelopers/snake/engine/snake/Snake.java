@@ -1,19 +1,29 @@
 package com.litedevelopers.snake.engine.snake;
 
+import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
 
 import java.util.List;
 
 public interface Snake {
+
     String getName();
 
-    void move(Position position); // TODO: Przyjmować prędkość i kierunek ruchu
+    void move(Direction direction);
 
-    void moveWithApple(Position position);
+    void move();
 
-    void setHeadPosition(Position position);
+    void moveWithApple(Direction direction);
 
-    Position getHeadPosition();
+    void moveWithApple();
 
-    List<Position> getPosition();
+    void setDirection(Direction direction);
+
+    Direction getDirection();
+
+    BodyHead getHead();
+
+    List<BodyPart> getBodyParts();
+
+    int getLength();
 }

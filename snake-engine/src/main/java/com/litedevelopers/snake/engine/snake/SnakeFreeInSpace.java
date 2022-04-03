@@ -1,51 +1,60 @@
 package com.litedevelopers.snake.engine.snake;
 
+import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
 
 import java.util.List;
 
 public class SnakeFreeInSpace implements Snake {
 
-    private final String name;
-
-    SnakeFreeInSpace(String name) {
-        this.name = name;
-    }
 
     @Override
     public String getName() {
-        return name;
+        return null;
     }
 
     @Override
-    public void move(Position position) {
+    public void move(Direction direction) {
 
     }
 
     @Override
-    public void moveWithApple(Position position) {
+    public void move() {
 
+    }
+
+    @Override
+    public void moveWithApple(Direction direction) {
+
+    }
+
+    @Override
+    public void moveWithApple() {
+
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+
+    }
+
+    @Override
+    public Direction getDirection() {
+        return null;
+    }
+
+    @Override
+    public BodyHead getHead() {
+        return null;
+    }
+
+    @Override
+    public List<BodyPart> getBodyParts() {
+        return null;
     }
 
     @Override
     public int getLength() {
         return 0;
     }
-
-    @Override
-    public void setHeadPosition(Position position) {
-
-    }
-
-    @Override
-    public Position getHeadPosition() {
-        return null;
-    }
-
-    @Override
-    public List<Position> getPosition() {
-        return null;
-    }
-
-
 }
