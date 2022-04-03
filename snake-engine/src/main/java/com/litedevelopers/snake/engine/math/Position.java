@@ -28,18 +28,26 @@ public class Position {
         return new Vector(vectorX, vectorY);
     }
 
-    public Position add(double x) {
-        return add(x, x);
+    public Position add(double xy) {
+        return add(xy, xy);
     }
 
     public Position add(double x, double y) {
         return new Position(this.x + x, this.y + y);
     }
 
-    public Position add(Vector vector) {
+    public Position add(Position vector) {
         return new Position(
                 this.x + vector.getX(),
                 this.y + vector.getY());
+    }
+
+    public Position subtract(double x, double y) {
+        return new Position(this.x - x, this.y - y);
+    }
+
+    public Position subtract(Position vector) {
+        return new Position(this.x - vector.getX(), this.y - vector.getY());
     }
 
     @Override

@@ -28,7 +28,7 @@ public class SnakeFreeInSpace implements Snake {
     }
 
     @Override
-    public double getLength() {
+    public int getLength() {
         return 0;
     }
 

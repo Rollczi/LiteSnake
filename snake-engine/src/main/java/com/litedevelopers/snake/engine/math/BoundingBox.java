@@ -2,20 +2,18 @@ package com.litedevelopers.snake.engine.math;
 
 public class BoundingBox {
 
-    protected Position min;
-    protected Position max;
+    protected final Position min;
+    protected final Position max;
 
     public BoundingBox(Position min, Position max) {
         this.min = min;
         this.max = max;
     }
 
-    public void setPosition(Position position) {
-        Vector difference = this.min.getDifference(this.max);
+    public BoundingBox move(Position position) {
+        Position difference = this.min.subtract(this.max);
 
-        this.min = position;
-
-        this.max = position.add(difference);
+        return new BoundingBox(position, position.add(difference));
     }
 
     public Position getMinPosition() {
