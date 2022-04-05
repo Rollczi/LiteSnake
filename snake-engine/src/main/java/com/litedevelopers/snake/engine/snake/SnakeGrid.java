@@ -5,28 +5,26 @@ import com.litedevelopers.snake.engine.math.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SnakeGrid implements Snake{
 
     private final String name;
-    private BodyHead head;
-    private final List<BodyPart> bodyParts = new ArrayList<>();
+    private Position head;
+    private final List<Position> bodyParts = new ArrayList<>();
     private final double partSize;
-    private Direction currentDirection;
     private boolean isAlive;
 
     public SnakeGrid(String name, Position position, double headSize) {
         this.name = name;
         this.partSize = headSize;
-        this.head = new BodyHead(position, headSize);
-        this.currentDirection = Direction.UP;
+        this.head = position;
     }
 
     public SnakeGrid(String name, double headSize) {
         this.name = name;
         this.partSize = headSize;
-        this.head = new BodyHead(new Position(0,0), headSize);
-        this.currentDirection = Direction.UP;
+        this.head = new Position(0,0);
     }
 
     @Override
@@ -35,54 +33,36 @@ public class SnakeGrid implements Snake{
     }
 
     @Override
-    public void move(Direction direction) {
-        this.currentDirection = direction;
-
+    public void move(double velocity, Direction direction) {
         if (this.bodyParts.size() > 0) {
-            this.bodyParts.add(0, new BodyPart(this.head.getCenter(), this.partSize));
+            this.bodyParts.add(0, this.head);
             this.bodyParts.remove(this.bodyParts.size() - 1);
         }
 
-        this.head = new BodyHead(this.head.getCenter().add(direction), this.partSize);
+        Position to = direction.multiple(velocity, velocity);
+
+        this.head = this.head.add(to);
     }
 
     @Override
-    public void move() {
-        this.move(this.currentDirection);
-    }
+    public void moveWithApple(double velocity, Direction direction) {
+        this.bodyParts.add(0, this.head);
 
-    @Override
-    public void moveWithApple(Direction direction) {
-        this.currentDirection = direction;
+        Position to = direction.multiple(velocity, velocity);
 
-        this.bodyParts.add(0, new BodyPart(this.head.getCenter(), this.partSize));
-
-        this.head = new BodyHead(this.head.getCenter().add(direction), this.partSize);
-    }
-
-    @Override
-    public void moveWithApple() {
-        this.moveWithApple(this.currentDirection);
-    }
-
-    @Override
-    public void setDirection(Direction direction) {
-        this.currentDirection = direction;
-    }
-
-    @Override
-    public Direction getDirection() {
-        return currentDirection;
+        this.head = this.head.add(to);
     }
 
     @Override
     public BodyHead getHead() {
-        return head;
+        return new BodyHead(this.head.subtract(partSize), this.head.add(partSize));
     }
 
     @Override
     public List<BodyPart> getBodyParts() {
-        return bodyParts;
+        return this.bodyParts.stream()
+                .map(position -> new BodyPart(position.subtract(partSize), position.add(partSize)))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -104,8 +84,8 @@ public class SnakeGrid implements Snake{
                 "name='" + name + '\'' +
                 ", bodyParts=" + bodyParts +
                 ", partSize=" + partSize +
-                ", headX=" + head.getCenter().getX() +
-                ", headY=" + head.getCenter().getY() +
+                ", headX=" + head.getX() +
+                ", headY=" + head.getY() +
                 '}';
     }
 }

@@ -9,17 +9,9 @@ public interface Snake {
 
     String getName();
 
-    void move(Direction direction);
+    void move(double velocity, Direction direction);
 
-    void move();
-
-    void moveWithApple(Direction direction);
-
-    void moveWithApple();
-
-    void setDirection(Direction direction);
-
-    Direction getDirection();
+    void moveWithApple(double velocity, Direction direction);
 
     BodyHead getHead();
 

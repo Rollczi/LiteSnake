@@ -14,33 +14,13 @@ public class SnakeFreeInSpace implements Snake {
     }
 
     @Override
-    public void move(Direction direction) {
+    public void move(double velocity, Direction direction) {
 
     }
 
     @Override
-    public void move() {
+    public void moveWithApple(double velocity, Direction direction) {
 
-    }
-
-    @Override
-    public void moveWithApple(Direction direction) {
-
-    }
-
-    @Override
-    public void moveWithApple() {
-
-    }
-
-    @Override
-    public void setDirection(Direction direction) {
-
-    }
-
-    @Override
-    public Direction getDirection() {
-        return null;
     }
 
     @Override

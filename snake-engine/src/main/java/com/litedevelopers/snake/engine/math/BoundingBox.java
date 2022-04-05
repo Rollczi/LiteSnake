@@ -24,6 +24,10 @@ public class BoundingBox {
         return max;
     }
 
+    public Position getCenter() {
+        return new Position((min.getX() + max.getX()) / 2, (min.getY() + max.getY()) / 2);
+    }
+
     public boolean contains(Position position) {
         if (position.getX() < this.min.getX() || position.getX() > this.max.getX()) {
             return false;

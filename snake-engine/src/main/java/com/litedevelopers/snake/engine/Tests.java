@@ -9,23 +9,16 @@ public class Tests {
         SnakeGrid snake = new SnakeGrid("Kamil Ślimak", 1);
 
         System.out.println(snake.getHead().getCenter());
-        snake.move(Direction.DOWN);
-        snake.move(Direction.DOWN);
+        snake.move(1.0D, Direction.DOWN);
+        snake.move(1.0D, Direction.DOWN);
 
         System.out.println(snake);
 
-        snake.move(Direction.RIGHT);
-        snake.moveWithApple();
-        snake.move();
+        snake.move(1.0D, Direction.RIGHT);
 
         System.out.println(snake);
 
-        snake.move(Direction.UP);
-        snake.move();
-        snake.moveWithApple();
-        snake.move();
-        snake.moveWithApple();
-        snake.move();
+        snake.move(1.0D,Direction.UP);
 
         System.out.println(snake);
     }
