@@ -1,13 +1,13 @@
 package com.litedevelopers.snake.engine;
 
-import com.litedevelopers.snake.engine.snake.SnakeGrid;
+import com.litedevelopers.snake.engine.snake.SnakeFreeInSpace;
 import org.junit.jupiter.api.Test;
 
-public class SnakeGridTest {
+public class SnakeFreeInSpaceTest {
 
     @Test
     public void testGetGrid() {
-        SnakeGrid snake = new SnakeGrid("Kamil Ślimak", 1);
+        SnakeFreeInSpace snake = new SnakeFreeInSpace("Kamil Ślimak", 1);
 
 //        System.out.println(snake.getHead().getCenter());
 //        snake.move(Direction.DOWN);

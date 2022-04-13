@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SnakeGrid implements Snake{
+public class SnakeGrid implements Snake {
 
     private final String name;
     private Position head;
@@ -18,7 +18,7 @@ public class SnakeGrid implements Snake{
     public SnakeGrid(String name, Position position, double headSize) {
         this.name = name;
         this.partSize = headSize;
-        this.head = position;
+        this.head = new Position(position.getIntX(), position.getIntY());
     }
 
     public SnakeGrid(String name, double headSize) {
@@ -39,18 +39,18 @@ public class SnakeGrid implements Snake{
             this.bodyParts.remove(this.bodyParts.size() - 1);
         }
 
-        Position to = direction.multiple(velocity, velocity);
+        Position to = direction.normalize().multiple(velocity, velocity);
 
-        this.head = this.head.add(to);
+        this.head = this.head.add(new Position(to.getIntX(), to.getIntY()));
     }
 
     @Override
     public void moveWithApple(double velocity, Direction direction) {
         this.bodyParts.add(0, this.head);
 
-        Position to = direction.multiple(velocity, velocity);
+        Position to = direction.normalize().multiple(velocity, velocity);
 
-        this.head = this.head.add(to);
+        this.head = this.head.add(new Position(to.getIntX(), to.getIntY()));
     }
 
     @Override

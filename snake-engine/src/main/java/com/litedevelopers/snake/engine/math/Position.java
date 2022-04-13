@@ -18,6 +18,14 @@ public class Position {
         return y;
     }
 
+    public int getIntX() {
+        return (int) x;
+    }
+
+    public int getIntY() {
+        return (int) y;
+    }
+
     public Vector getDifference(Position position) {
         double posX = position.getX();
         double posY = position.getY();
@@ -60,6 +68,15 @@ public class Position {
 
     public Position multiple(Position vector) {
         return multiple(vector.x, vector.y);
+    }
+
+    public Position normalize() {
+        double length = getLength();
+        return new Position(x / length, y / length);
+    }
+
+    public double getLength() {
+        return Math.sqrt(x * x + y * y);
     }
 
     @Override
