@@ -28,17 +28,17 @@ public class SnakeMap extends BoundingBox {
             throw new IllegalStateException("This snake already exists!");
         }
 
-        Snake snake = new SnakeFreeInSpace(name);
-
-        snakes.add(snake);
-        snakesByName.put(name, snake);
-
-
+//        Snake snake = new SnakeFreeInSpace(name);
+//
+//        snakes.add(snake);
+//        snakesByName.put(name, snake);
 
 
 
 
-        return snake;
+
+
+        return null;
     }
 
 }

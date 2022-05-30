@@ -1,46 +1,68 @@
 package com.litedevelopers.snake.engine.snake;
 
+import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SnakeGrid implements Snake {
 
     private final String name;
-    private BodyHead head;
-    private final List<BodyPart> bodyParts = new ArrayList<>();
+    private Position head;
+    private final List<Position> bodyParts = new ArrayList<>();
     private final double partSize;
+    private boolean isAlive;
+
+    public SnakeGrid(String name, Position position, double headSize) {
+        this.name = name;
+        this.partSize = headSize;
+        this.head = new Position(position.getIntX(), position.getIntY());
+    }
 
     public SnakeGrid(String name, double headSize) {
         this.name = name;
         this.partSize = headSize;
-        this.head = new BodyHead(
-                new Position(0,0),
-                new Position(headSize, headSize));
+        this.head = new Position(0,0);
     }
 
     @Override
     public String getName() {
-        return this.name;
-    }
-
-    private void grow(Position position) {
-        this.bodyParts.add(0, new BodyPart(position, position.add(partSize)));
+        return name;
     }
 
     @Override
-    public void move(Position position) {
-        this.moveWithApple(position);
-        this.bodyParts.remove(this.bodyParts.size() - 1);
+    public void move(double velocity, Direction direction) {
+        if (this.bodyParts.size() > 0) {
+            this.bodyParts.add(0, this.head);
+            this.bodyParts.remove(this.bodyParts.size() - 1);
+        }
+
+        Position to = direction.normalize().multiple(velocity, velocity);
+
+        this.head = this.head.add(new Position(to.getIntX(), to.getIntY()));
     }
 
     @Override
-    public void moveWithApple(Position position) {
-        Position previousHeadPosition = this.head.getMinPosition();
+    public void moveWithApple(double velocity, Direction direction) {
+        this.bodyParts.add(0, this.head);
 
-        this.grow(previousHeadPosition);
-        this.head = this.head.move(position);
+        Position to = direction.normalize().multiple(velocity, velocity);
+
+        this.head = this.head.add(new Position(to.getIntX(), to.getIntY()));
+    }
+
+    @Override
+    public BodyHead getHead() {
+        return new BodyHead(this.head.subtract(partSize), this.head.add(partSize));
+    }
+
+    @Override
+    public List<BodyPart> getBodyParts() {
+        return this.bodyParts.stream()
+                .map(position -> new BodyPart(position.subtract(partSize), position.add(partSize)))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -48,19 +70,12 @@ public class SnakeGrid implements Snake {
         return this.bodyParts.size() + 1;
     }
 
-    @Override
-    public void setHeadPosition(Position position) {
-        this.head = this.head.move(position);
+    public boolean isAlive() {
+        return isAlive;
     }
 
-    @Override
-    public Position getHeadPosition() {
-        return this.head.getMinPosition();
-    }
-
-    @Override
-    public List<Position> getPosition() {
-        return null;
+    public void kill() {
+        isAlive = false;
     }
 
     @Override
@@ -69,8 +84,8 @@ public class SnakeGrid implements Snake {
                 "name='" + name + '\'' +
                 ", bodyParts=" + bodyParts +
                 ", partSize=" + partSize +
-                ", headX=" + getHeadPosition().getX() +
-                ", headY=" + getHeadPosition().getY() +
+                ", headX=" + head.getX() +
+                ", headY=" + head.getY() +
                 '}';
     }
 }

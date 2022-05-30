@@ -18,6 +18,14 @@ public class Position {
         return y;
     }
 
+    public int getIntX() {
+        return (int) x;
+    }
+
+    public int getIntY() {
+        return (int) y;
+    }
+
     public Vector getDifference(Position position) {
         double posX = position.getX();
         double posY = position.getY();
@@ -42,12 +50,33 @@ public class Position {
                 this.y + vector.getY());
     }
 
+    public Position subtract(double xy) {
+        return subtract(xy, xy);
+    }
+
     public Position subtract(double x, double y) {
         return new Position(this.x - x, this.y - y);
     }
 
     public Position subtract(Position vector) {
-        return new Position(this.x - vector.getX(), this.y - vector.getY());
+        return subtract(vector.x, vector.y);
+    }
+
+    public Position multiple(double x, double y) {
+        return new Position(this.x * x, this.y * y);
+    }
+
+    public Position multiple(Position vector) {
+        return multiple(vector.x, vector.y);
+    }
+
+    public Position normalize() {
+        double length = getLength();
+        return new Position(x / length, y / length);
+    }
+
+    public double getLength() {
+        return Math.sqrt(x * x + y * y);
     }
 
     @Override
