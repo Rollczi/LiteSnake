@@ -1,4 +1,4 @@
-package com.litedevelopers.snake.engine;
+package com.litedevelopers.snake.engine.snake;
 
 import com.litedevelopers.snake.engine.snake.SnakeFreeInSpace;
 import org.junit.jupiter.api.Test;

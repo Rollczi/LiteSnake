@@ -28,6 +28,10 @@ public class BoundingBox {
         return new Position((min.getX() + max.getX()) / 2, (min.getY() + max.getY()) / 2);
     }
 
+    public boolean contains(BoundingBox boundingBox) {
+        return this.contains(boundingBox.min) || this.contains(boundingBox.max);
+    }
+
     public boolean contains(Position position) {
         if (position.getX() < this.min.getX() || position.getX() > this.max.getX()) {
             return false;

@@ -2,6 +2,9 @@ package com.litedevelopers.snake.engine.math;
 
 public class Position {
 
+    public static final Position ZERO = new Position(0, 0);
+    public static final Position ONE = new Position(1, 1);
+
     private final double x;
     private final double y;
 
@@ -26,14 +29,14 @@ public class Position {
         return (int) y;
     }
 
-    public Vector getDifference(Position position) {
+    public Position getDifference(Position position) {
         double posX = position.getX();
         double posY = position.getY();
 
         double vectorX = Math.abs(this.x - posX);
         double vectorY = Math.abs(this.y - posY);
 
-        return new Vector(vectorX, vectorY);
+        return new Position(vectorX, vectorY);
     }
 
     public Position add(double xy) {

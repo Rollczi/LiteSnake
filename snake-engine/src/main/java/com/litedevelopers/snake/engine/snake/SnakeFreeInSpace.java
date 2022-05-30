@@ -5,15 +5,18 @@ import com.litedevelopers.snake.engine.math.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class SnakeFreeInSpace implements Snake {
+class SnakeFreeInSpace implements Snake {
 
     private final String name;
+    private final double partSize;
+
     private Position head;
     private final List<Position> bodyParts = new ArrayList<>();
-    private final double partSize;
-    private boolean isAlive;
+
 
     public SnakeFreeInSpace(String name, Position position, double headSize) {
         this.name = name;
@@ -21,7 +24,7 @@ public class SnakeFreeInSpace implements Snake {
         this.head = position;
     }
 
-    public SnakeFreeInSpace(String name, double headSize) {
+    SnakeFreeInSpace(String name, double headSize) {
         this.name = name;
         this.partSize = headSize;
         this.head = new Position(0,0);
@@ -33,24 +36,30 @@ public class SnakeFreeInSpace implements Snake {
     }
 
     @Override
-    public void move(double velocity, Direction direction) {
+    public Position move(double velocity, Direction direction) {
         if (this.bodyParts.size() > 0) {
             this.bodyParts.add(0, this.head);
             this.bodyParts.remove(this.bodyParts.size() - 1);
         }
 
-        Position to = direction.normalize().multiple(velocity, velocity);
+        this.head = direction
+                .normalize()
+                .multiple(velocity, velocity)
+                .add(this.head);
 
-        this.head = this.head.add(to);
+        return this.head;
     }
 
     @Override
-    public void moveWithApple(double velocity, Direction direction) {
+    public Position moveWithApple(double velocity, Direction direction) {
         this.bodyParts.add(0, this.head);
 
-        Position to = direction.normalize().multiple(velocity, velocity);
+        this.head = direction
+                .normalize()
+                .multiple(velocity, velocity)
+                .add(this.head);
 
-        this.head = this.head.add(to);
+        return this.head;
     }
 
     @Override
@@ -70,22 +79,23 @@ public class SnakeFreeInSpace implements Snake {
         return this.bodyParts.size() + 1;
     }
 
-    public boolean isAlive() {
-        return isAlive;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
 
-    public void kill() {
-        isAlive = false;
+        if (!(o instanceof SnakeFreeInSpace)) {
+            return false;
+        }
+
+        SnakeFreeInSpace that = (SnakeFreeInSpace) o;
+        return name.equals(that.name);
     }
 
     @Override
-    public String toString() {
-        return "SnakeGrid{" +
-                "name='" + name + '\'' +
-                ", bodyParts=" + bodyParts +
-                ", partSize=" + partSize +
-                ", headX=" + head.getX() +
-                ", headY=" + head.getY() +
-                '}';
+    public int hashCode() {
+        return Objects.hash(name);
     }
+
 }
