@@ -5,6 +5,8 @@ import com.litedevelopers.snake.engine.math.Position;
 
 public interface GraphicsRenderer<T extends GraphicsElement> {
 
+    void refresh();
+
     T createBox(BoundingBox boundingBox);
 
     void deleteBox(T graphicsBox);

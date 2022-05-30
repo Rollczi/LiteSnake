@@ -15,8 +15,12 @@ public interface Snake {
 
     BodyHead getHead();
 
+    Position getPosition();
+
     List<BodyPart> getBodyParts();
 
     int getLength();
+
+    double getPartSize();
 
 }

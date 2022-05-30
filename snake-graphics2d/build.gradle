@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":snake-engine").getProject()
+
+    implementation 'org.openjfx:javafx-swing:19-ea+7'
+    implementation('com.jtransc:jtransc-rt:0.6.8')
+}
+
+test {
+    useJUnitPlatform()
+}

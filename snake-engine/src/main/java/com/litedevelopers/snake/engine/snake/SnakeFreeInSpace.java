@@ -68,6 +68,11 @@ class SnakeFreeInSpace implements Snake {
     }
 
     @Override
+    public Position getPosition() {
+        return this.head;
+    }
+
+    @Override
     public List<BodyPart> getBodyParts() {
         return this.bodyParts.stream()
                 .map(position -> new BodyPart(position.subtract(partSize), position.add(partSize)))
@@ -77,6 +82,11 @@ class SnakeFreeInSpace implements Snake {
     @Override
     public int getLength() {
         return this.bodyParts.size() + 1;
+    }
+
+    @Override
+    public double getPartSize() {
+        return this.partSize;
     }
 
     @Override

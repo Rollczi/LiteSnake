@@ -9,6 +9,11 @@ import java.awt.*;
 class AndroidRenderer implements GraphicsRenderer<AndroidElement> {
 
     @Override
+    public void refresh() {
+
+    }
+
+    @Override
     public AndroidElement createBox(BoundingBox boundingBox) {
         Position minPosition = boundingBox.getMinPosition();
         Position maxPosition = boundingBox.getMaxPosition();

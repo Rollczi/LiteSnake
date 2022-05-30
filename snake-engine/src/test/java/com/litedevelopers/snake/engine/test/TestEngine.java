@@ -23,7 +23,7 @@ class TestEngine {
         eventHandler.registerListener(graphicsController); // Zarejestrowanie listener'a
 
         SnakeGameEngine snakeGameEngine = new SnakeGameEngine(eventHandler); // silnik (co 50 ms wykonuje tick od teraz)
-        snakeGameEngine.setGameSettings(new GameSettings(100, 300)); // ustawienia silnika
+        snakeGameEngine.setGameSettings(new GameSettings(100, 300, 10)); // ustawienia silnika
 
         Player player = new Player("test", new RandomPlayerInteraction()); // nowy gracz (w naszym przypadku 1 wystarczy)
 

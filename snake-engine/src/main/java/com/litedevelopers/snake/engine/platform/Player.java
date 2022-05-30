@@ -1,6 +1,7 @@
 package com.litedevelopers.snake.engine.platform;
 
 import com.litedevelopers.snake.engine.math.Direction;
+import com.litedevelopers.snake.engine.snake.Snake;
 
 import java.util.UUID;
 
@@ -30,8 +31,8 @@ public class Player {
         return name;
     }
 
-    public Direction getDirection() {
-        return directionProvider.getDirection();
+    public Direction getDirection(Snake snake) {
+        return directionProvider.getDirection(snake);
     }
 
 }

@@ -42,7 +42,18 @@ public final class SnakeMap extends BoundingBox {
         this.apples.add(apple);
     }
 
-    public Snake spawnSnake(String name) {
+    public Snake killSnake(String name) {
+        Snake snake = snakesByName.remove(name);
+
+        if (snake == null) {
+            throw new NullPointerException();
+        }
+        snakes.remove(snake);
+
+        return snake;
+    }
+
+    public Snake spawnSnake(String name, double sizeHead) {
         if (this.closed) {
             throw new IllegalStateException("This map is closed!");
         }
@@ -51,7 +62,7 @@ public final class SnakeMap extends BoundingBox {
             throw new IllegalStateException("This snake already exists!");
         }
 
-        Snake snake = new SnakeFreeInSpace(name, this.getCenter(), 1.0);
+        Snake snake = new SnakeFreeInSpace(name, this.getCenter(), sizeHead);
 
         this.snakes.add(snake);
         this.snakesByName.put(name, snake);
@@ -77,6 +88,10 @@ public final class SnakeMap extends BoundingBox {
 
     public boolean isClosed() {
         return this.closed;
+    }
+
+    public boolean isEmpty() {
+        return this.snakes.isEmpty();
     }
 
 }
