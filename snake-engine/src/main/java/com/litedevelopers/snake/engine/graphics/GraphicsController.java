@@ -1,5 +1,9 @@
 package com.litedevelopers.snake.engine.graphics;
 
+import com.litedevelopers.snake.engine.event.fruit.FruitEatEvent;
+import com.litedevelopers.snake.engine.event.fruit.FruitSpawnEvent;
+import com.litedevelopers.snake.engine.fruits.Fruit;
+import com.litedevelopers.snake.engine.fruits.FruitType;
 import com.litedevelopers.snake.engine.snake.BodyPart;
 import com.litedevelopers.snake.engine.snake.Snake;
 import com.litedevelopers.snake.engine.snake.SnakeMap;
@@ -12,8 +16,10 @@ import com.litedevelopers.snake.engine.event.snake.SnakeSpawnEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GraphicsController<T extends GraphicsElement> implements Listener {
 
@@ -24,6 +30,7 @@ public class GraphicsController<T extends GraphicsElement> implements Listener {
     }
 
     private final Map<Snake, List<T>> graphicsElements = new HashMap<>();
+    private final Map<Fruit, T> fruits = new HashMap<>();
 
     @Subscribe
     public void onMapRender(SnakeCreateMapEvent event) {
@@ -34,6 +41,28 @@ public class GraphicsController<T extends GraphicsElement> implements Listener {
     @Subscribe
     public void onMapRender(SnakeDeleteMapEvent event) {
         this.graphicsRenderer.clearMapGrid();
+    }
+
+    @Subscribe
+    public void onSpawn(FruitSpawnEvent event) {
+        Fruit fruit = event.getFruit();
+        FruitType type = fruit.getType();
+
+        T box = this.graphicsRenderer.createBox(fruit.getBoundingBox(), GraphicsUtils.convert(type));
+
+        fruits.put(fruit, box);
+    }
+
+    @Subscribe
+    public void onSpawn(FruitEatEvent event) {
+        Fruit fruit = event.getFruit();
+        T removed = fruits.remove(fruit);
+
+        if (removed == null) {
+            return;
+        }
+
+        this.graphicsRenderer.deleteBox(removed);
     }
 
     @Subscribe

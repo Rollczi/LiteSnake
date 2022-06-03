@@ -56,7 +56,9 @@ public class LibgdxGraphicsApplication extends Game {
 		shapeRenderer = new ShapeRenderer();
 
 		elementsTextures = Map.of(
-				GraphicsElement.Type.SNAKE_HEAD, new Texture("snake_head.png")
+				GraphicsElement.Type.SNAKE_HEAD, new Texture("snake_head.png"),
+				GraphicsElement.Type.APPLE, new Texture("apple.png"),
+				GraphicsElement.Type.COCONUT, new Texture("coconut.png")
 		);
 	}
 
@@ -95,17 +97,24 @@ public class LibgdxGraphicsApplication extends Game {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
+
 		for (LibgdxElement element : elements) {
+
+			System.out.println(element.type + " " + element.rectangle.x + " " + element.rectangle.y);
+
 			Texture texture = elementsTextures.get(element.type);
 			Sprite glowSprite = new Sprite(texture);
 
 			glowSprite.setSize(element.rectangle.width, element.rectangle.height);
-			glowSprite.setOriginCenter();
-			glowSprite.setRotation(angle++ - 90);
-			glowSprite.setPosition(element.rectangle.x, element.rectangle.y);
+//			glowSprite.setOriginCenter();
+//			glowSprite.setRotation(angle++ - 90);
+			glowSprite.setOriginBasedPosition(element.rectangle.x, element.rectangle.y);
 
 			glowSprite.draw(batch);
+			//System.out.println(element.rectangle.x + " " + element.rectangle.y);
 		}
+
+
 
 		batch.end();
 	}

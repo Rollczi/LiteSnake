@@ -4,7 +4,7 @@ import com.litedevelopers.snake.engine.fruits.Fruit;
 
 public class FruitSpawnEvent extends FruitEvent {
 
-    protected FruitSpawnEvent(Fruit fruit) {
+    public FruitSpawnEvent(Fruit fruit) {
         super(fruit);
     }
 

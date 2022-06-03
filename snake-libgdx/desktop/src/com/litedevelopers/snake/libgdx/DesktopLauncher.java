@@ -17,6 +17,7 @@ public class DesktopLauncher {
 				.cameraHeight(960F)
 
 				.headSize(30)
+				.headSize(30)
 				.speed(1.25)
 				.build();
 

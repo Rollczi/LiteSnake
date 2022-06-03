@@ -16,6 +16,7 @@ public class GameSettings {
     private final float cameraWidth;
     private final float cameraHeight;
     private final double headSize;
+    private final double fruitSize;
     private final double speed;
 
     public GameSettings() {
@@ -24,6 +25,7 @@ public class GameSettings {
         this.cameraHeight = 800;
         this.cameraWidth = 480;
         this.headSize = 20;
+        this.fruitSize = 20;
         this.speed = 5.0;
     }
 

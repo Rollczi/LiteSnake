@@ -1,6 +1,8 @@
 package com.litedevelopers.snake.engine.snake;
 
 import com.litedevelopers.snake.engine.fruits.Apple;
+import com.litedevelopers.snake.engine.fruits.Fruit;
+import com.litedevelopers.snake.engine.fruits.FruitManager;
 import com.litedevelopers.snake.engine.math.BoundingBox;
 import com.litedevelopers.snake.engine.math.Position;
 
@@ -19,7 +21,6 @@ public final class SnakeMap extends BoundingBox {
 
     private final Set<Snake> snakes = new HashSet<>();
     private final Map<String, Snake> snakesByName = new HashMap<>();
-    private final List<Apple> apples = new ArrayList<>();
 
     private boolean closed;
 
@@ -35,10 +36,6 @@ public final class SnakeMap extends BoundingBox {
 
     public Set<Snake> getSnakes() {
         return Collections.unmodifiableSet(snakes);
-    }
-
-    public void spawnApple(Apple apple) {
-        this.apples.add(apple);
     }
 
     public Snake killSnake(String name) {
@@ -67,18 +64,6 @@ public final class SnakeMap extends BoundingBox {
         this.snakesByName.put(name, snake);
 
         return snake;
-    }
-
-    public Optional<Apple> getAppleIfStanding(Snake snake) {
-        for (Apple apple : apples) {
-            BoundingBox box = apple.getBoundingBox();
-
-            if (box.contains(snake.getHead())) {
-                return Optional.of(apple);
-            }
-        }
-
-        return Optional.empty();
     }
 
     public void closeMap() {

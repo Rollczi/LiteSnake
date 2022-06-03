@@ -51,18 +51,6 @@ class SnakeFreeInSpace implements Snake {
     }
 
     @Override
-    public Position moveWithApple(double velocity, Direction direction) {
-        this.bodyParts.add(0, this.head);
-
-        this.head = direction
-                .normalize()
-                .multiple(velocity, velocity)
-                .add(this.head);
-
-        return this.head;
-    }
-
-    @Override
     public BodyHead getHead() {
         return new BodyHead(this.head.subtract(partSize), this.head.add(partSize));
     }
@@ -80,8 +68,37 @@ class SnakeFreeInSpace implements Snake {
     }
 
     @Override
+    public void setLength(int length) {
+        int size = this.bodyParts.size();
+
+        if (size == length) {
+            return;
+        }
+
+        if (size > length) {
+            for (int i = size - length; i < size; i++) {
+                this.bodyParts.remove(i);
+            }
+
+            return;
+        }
+
+        for (int i = 0; i < length - size; i++) {
+            this.bodyParts.add(this.getLast());
+        }
+    }
+
+    public Position getLast() {
+        if (bodyParts.isEmpty()) {
+            return this.head;
+        }
+
+        return bodyParts.get(bodyParts.size() - 1);
+    }
+
+    @Override
     public int getLength() {
-        return this.bodyParts.size() + 1;
+        return this.bodyParts.size();
     }
 
     @Override

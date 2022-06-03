@@ -11,13 +11,14 @@ public interface Snake {
 
     Position move(double velocity, Direction direction);
 
-    Position moveWithApple(double velocity, Direction direction);
 
     BodyHead getHead();
 
     Position getPosition();
 
     List<BodyPart> getBodyParts();
+
+    void setLength(int length);
 
     int getLength();
 

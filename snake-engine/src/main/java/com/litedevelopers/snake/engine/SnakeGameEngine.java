@@ -1,5 +1,6 @@
 package com.litedevelopers.snake.engine;
 
+import com.litedevelopers.snake.engine.fruits.FruitManager;
 import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.platform.Player;
@@ -29,6 +30,7 @@ public class SnakeGameEngine implements AutoCloseable{
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final EventHandler eventHandler;
+    private final FruitManager fruitManager;
 
     private final Set<Player> players = new HashSet<>();
     private final Map<Snake, Player> snakeRelations = new HashMap<>();
@@ -42,8 +44,10 @@ public class SnakeGameEngine implements AutoCloseable{
 
     public SnakeGameEngine(EventHandler eventHandler, GameSettings settings) {
         this.eventHandler = eventHandler;
+        this.fruitManager = new FruitManager(eventHandler, settings);
         this.gameSettings = settings;
         this.eventHandler.registerListener(new PlayerInteractionController());
+        this.fruitManager.spawnFruit();
         this.schedule();
     }
 
@@ -77,6 +81,7 @@ public class SnakeGameEngine implements AutoCloseable{
             this.eventHandler.call(new SnakeDeleteMapEvent(this.snakeMap));
             this.snakeMap = new SnakeMap(Position.ZERO, new Position(this.gameSettings.mapWidth(), this.gameSettings.mapHeight()));
             this.eventHandler.call(new SnakeCreateMapEvent(this.snakeMap));
+            this.fruitManager.setReach(this.snakeMap);
 
             for (Player player : this.players) {
                 Snake snake = this.snakeMap.spawnSnake(player.getName(), gameSettings.headSize());
@@ -86,6 +91,8 @@ public class SnakeGameEngine implements AutoCloseable{
             }
         }
 
+
+        //System.out.println(this.fruitManager.getFruits().size());
         this.moveTick();
     }
 
@@ -114,7 +121,6 @@ public class SnakeGameEngine implements AutoCloseable{
                 }
             }
 
-            Optional<Apple> apple = this.snakeMap.getAppleIfStanding(snake);
         }
     }
 

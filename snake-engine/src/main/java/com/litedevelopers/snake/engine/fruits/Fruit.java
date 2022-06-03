@@ -5,6 +5,8 @@ import com.litedevelopers.snake.engine.snake.Snake;
 
 public interface Fruit extends Entity {
 
+    FruitType getType();
+
     void applyOnSnake(Snake snake);
 
 }
