@@ -4,7 +4,7 @@ import com.litedevelopers.snake.engine.event.fruit.FruitEatEvent;
 import com.litedevelopers.snake.engine.event.fruit.FruitSpawnEvent;
 import com.litedevelopers.snake.engine.fruits.Fruit;
 import com.litedevelopers.snake.engine.fruits.FruitType;
-import com.litedevelopers.snake.engine.snake.BodyPart;
+import com.litedevelopers.snake.engine.math.RotatedBox;
 import com.litedevelopers.snake.engine.snake.Snake;
 import com.litedevelopers.snake.engine.snake.SnakeMap;
 import com.litedevelopers.snake.engine.event.Listener;
@@ -16,10 +16,8 @@ import com.litedevelopers.snake.engine.event.snake.SnakeSpawnEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class GraphicsController<T extends GraphicsElement> implements Listener {
 
@@ -78,10 +76,10 @@ public class GraphicsController<T extends GraphicsElement> implements Listener {
 
         List<T> boxes = new ArrayList<>();
 
-        boxes.add(this.graphicsRenderer.createBox(snake.getHead(), GraphicsElement.Type.SNAKE_HEAD));
+        boxes.add(this.graphicsRenderer.createBox(snake.getHead(), snake.getHead().rotation(), GraphicsElement.Type.SNAKE_HEAD));
 
-        for (BodyPart bodyPart : snake.getBodyParts()) {
-            boxes.add(this.graphicsRenderer.createBox(bodyPart, GraphicsElement.Type.SNAKE_BODY));
+        for (RotatedBox bodyPart : snake.getBodyParts()) {
+            boxes.add(this.graphicsRenderer.createBox(bodyPart, bodyPart.rotation(), GraphicsElement.Type.SNAKE_BODY));
         }
 
         this.graphicsElements.put(snake, boxes);
@@ -100,10 +98,10 @@ public class GraphicsController<T extends GraphicsElement> implements Listener {
 
         List<T> boxes = new ArrayList<>();
 
-        boxes.add(this.graphicsRenderer.createBox(snake.getHead(), GraphicsElement.Type.SNAKE_HEAD));
+        boxes.add(this.graphicsRenderer.createBox(snake.getHead(), snake.getHead().rotation(), GraphicsElement.Type.SNAKE_HEAD));
 
-        for (BodyPart bodyPart : snake.getBodyParts()) {
-            boxes.add(this.graphicsRenderer.createBox(bodyPart, GraphicsElement.Type.SNAKE_BODY));
+        for (RotatedBox bodyPart : snake.getBodyParts()) {
+            boxes.add(this.graphicsRenderer.createBox(bodyPart, bodyPart.rotation(), GraphicsElement.Type.SNAKE_BODY));
         }
 
         this.graphicsElements.put(snake, boxes);

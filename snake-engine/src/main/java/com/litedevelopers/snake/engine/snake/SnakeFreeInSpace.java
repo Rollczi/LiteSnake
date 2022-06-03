@@ -1,33 +1,29 @@
 package com.litedevelopers.snake.engine.snake;
 
-import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
+import com.litedevelopers.snake.engine.math.RotatedBox;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 class SnakeFreeInSpace implements Snake {
 
     private final String name;
     private final double partSize;
 
-    private Position head;
-    private final List<Position> bodyParts = new ArrayList<>();
+    private RotatedBox head;
+    private final List<RotatedBox> bodyParts = new ArrayList<>();
 
 
     public SnakeFreeInSpace(String name, Position position, double headSize) {
         this.name = name;
         this.partSize = headSize;
-        this.head = position;
+        this.head = new RotatedBox(position.subtract(partSize), position.add(partSize), new Position(0, 0));
     }
 
     SnakeFreeInSpace(String name, double headSize) {
-        this.name = name;
-        this.partSize = headSize;
-        this.head = new Position(0,0);
+        this(name, new Position(0, 0), headSize);
     }
 
     @Override
@@ -36,35 +32,36 @@ class SnakeFreeInSpace implements Snake {
     }
 
     @Override
-    public Position move(double velocity, Direction direction) {
+    public Position move(double velocity, Position direction) {
         if (this.bodyParts.size() > 0) {
             this.bodyParts.add(0, this.head);
             this.bodyParts.remove(this.bodyParts.size() - 1);
         }
 
-        this.head = direction
-                .normalize()
-                .multiple(velocity, velocity)
-                .add(this.head);
 
-        return this.head;
+        this.head = this.head.move(direction
+                .normalize()
+                .multiple(velocity, velocity))
+                .direction(direction.normalize());
+        System.out.println(this.head.direction());
+        System.out.println(this.head.rotation());
+
+        return this.head.center();
     }
 
     @Override
-    public BodyHead getHead() {
-        return new BodyHead(this.head.subtract(partSize), this.head.add(partSize));
+    public RotatedBox getHead() {
+        return this.head;
     }
 
     @Override
     public Position getPosition() {
-        return this.head;
+        return this.head.center();
     }
 
     @Override
-    public List<BodyPart> getBodyParts() {
-        return this.bodyParts.stream()
-                .map(position -> new BodyPart(position.subtract(partSize), position.add(partSize)))
-                .collect(Collectors.toList());
+    public List<RotatedBox> getBodyParts() {
+        return this.bodyParts;
     }
 
     @Override
@@ -88,7 +85,7 @@ class SnakeFreeInSpace implements Snake {
         }
     }
 
-    public Position getLast() {
+    public RotatedBox getLast() {
         if (bodyParts.isEmpty()) {
             return this.head;
         }

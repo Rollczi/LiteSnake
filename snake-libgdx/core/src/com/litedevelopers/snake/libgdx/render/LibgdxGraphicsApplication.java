@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.litedevelopers.snake.engine.GameSettings;
 import com.litedevelopers.snake.engine.graphics.GraphicsElement;
-import com.litedevelopers.snake.engine.math.Direction;
+import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.snake.SnakeMap;
 import com.litedevelopers.snake.libgdx.LibgdxPlayerInteraction;
 
@@ -83,7 +83,7 @@ public class LibgdxGraphicsApplication extends Game {
 		touchPos.set(Gdx.input.getX(), Gdx.input.getY());
 		viewport.unproject(touchPos);
 
-		playerInteraction.setDirection(new Direction(touchPos.x, touchPos.y));
+		playerInteraction.setDirection(new Position(touchPos.x, touchPos.y));
 
 
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -100,18 +100,15 @@ public class LibgdxGraphicsApplication extends Game {
 
 		for (LibgdxElement element : elements) {
 
-			System.out.println(element.type + " " + element.rectangle.x + " " + element.rectangle.y);
-
 			Texture texture = elementsTextures.get(element.type);
 			Sprite glowSprite = new Sprite(texture);
 
 			glowSprite.setSize(element.rectangle.width, element.rectangle.height);
-//			glowSprite.setOriginCenter();
-//			glowSprite.setRotation(angle++ - 90);
+			glowSprite.setOriginCenter();
+			glowSprite.setRotation(element.rotation);
 			glowSprite.setOriginBasedPosition(element.rectangle.x, element.rectangle.y);
 
 			glowSprite.draw(batch);
-			//System.out.println(element.rectangle.x + " " + element.rectangle.y);
 		}
 
 

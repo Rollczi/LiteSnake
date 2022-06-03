@@ -1,6 +1,5 @@
 package com.litedevelopers.snake.engine.platform;
 
-import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.snake.Snake;
 
@@ -36,7 +35,7 @@ public class Player {
         directionProvider.setCamera(position);
     }
 
-    public Direction getDirection(Snake snake) {
+    public Position getDirection(Snake snake) {
         return directionProvider.getDirection(snake);
     }
 

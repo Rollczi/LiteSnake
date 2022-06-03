@@ -27,12 +27,17 @@ public class LibgdxRenderer implements GraphicsRenderer<LibgdxElement> {
 
     @Override
     public LibgdxElement createBox(BoundingBox boundingBox, GraphicsElement.Type type) {
+        return createBox(boundingBox, 0.0F, type);
+    }
+
+    @Override
+    public LibgdxElement createBox(BoundingBox boundingBox, float rotation, GraphicsElement.Type type) {
         LibgdxElement element = new LibgdxElement(new Rectangle(
                 (float) boundingBox.getMin().getX(),
                 (float) boundingBox.getMin().getY(),
                 (float) boundingBox.width(),
                 (float) boundingBox.height()
-        ), type);
+        ), rotation, type);
 
         this.application.addElement(element);
 

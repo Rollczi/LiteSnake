@@ -12,6 +12,8 @@ public interface GraphicsRenderer<T extends GraphicsElement> {
 
     T createBox(BoundingBox boundingBox, GraphicsElement.Type type);
 
+    T createBox(BoundingBox boundingBox, float rotation, GraphicsElement.Type type);
+
     void moveBox(T graphicsBox, Position from, Position to);
 
     void deleteBox(T graphicsBox);

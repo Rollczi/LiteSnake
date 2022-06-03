@@ -7,10 +7,10 @@ import com.litedevelopers.snake.engine.math.BoundingBox;
 import com.litedevelopers.snake.engine.math.Position;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 public class FruitManager {
-
 
     private final Random random = new Random();
     private final EventHandler eventHandler;
@@ -37,7 +37,11 @@ public class FruitManager {
         return fruits;
     }
 
-    public Fruit spawnFruit() {
+    public Optional<Fruit> spawnFruit() {
+        if (!(random.nextDouble() <= 0.01)) {
+            return Optional.empty();
+        }
+
         int x = random.nextInt((int) reach.width());
         int y = random.nextInt((int) reach.height());
 
@@ -51,7 +55,7 @@ public class FruitManager {
         fruits.add(fruit);
         eventHandler.call(new FruitSpawnEvent(fruit));
 
-        return fruit;
+        return Optional.of(fruit);
     }
 
 }

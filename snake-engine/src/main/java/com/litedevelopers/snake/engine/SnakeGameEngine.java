@@ -1,11 +1,9 @@
 package com.litedevelopers.snake.engine;
 
 import com.litedevelopers.snake.engine.fruits.FruitManager;
-import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.platform.Player;
 import com.litedevelopers.snake.engine.platform.PlayerInteractionController;
-import com.litedevelopers.snake.engine.fruits.Apple;
 import com.litedevelopers.snake.engine.snake.Snake;
 import com.litedevelopers.snake.engine.snake.SnakeMap;
 import com.litedevelopers.snake.engine.event.EventHandler;
@@ -18,7 +16,6 @@ import com.litedevelopers.snake.engine.event.snake.SnakeSpawnEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -47,7 +44,6 @@ public class SnakeGameEngine implements AutoCloseable{
         this.fruitManager = new FruitManager(eventHandler, settings);
         this.gameSettings = settings;
         this.eventHandler.registerListener(new PlayerInteractionController());
-        this.fruitManager.spawnFruit();
         this.schedule();
     }
 
@@ -93,6 +89,7 @@ public class SnakeGameEngine implements AutoCloseable{
 
 
         //System.out.println(this.fruitManager.getFruits().size());
+        this.fruitManager.spawnFruit();
         this.moveTick();
     }
 
@@ -104,7 +101,7 @@ public class SnakeGameEngine implements AutoCloseable{
                 continue;
             }
 
-            Direction direction = player.getDirection(snake);
+            Position direction = player.getDirection(snake);
 
             Position from = snake.getPosition();
             Position to = snake.move(gameSettings.speed(), direction);

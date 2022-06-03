@@ -1,7 +1,6 @@
 package com.litedevelopers.snake.libgdx;
 
 import com.badlogic.gdx.math.Vector3;
-import com.litedevelopers.snake.engine.math.Direction;
 import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.platform.PlayerInteraction;
 import com.litedevelopers.snake.engine.snake.Snake;
@@ -9,12 +8,12 @@ import com.litedevelopers.snake.engine.snake.Snake;
 public class LibgdxPlayerInteraction implements PlayerInteraction {
 
     private final Vector3 camera = new Vector3(0, 0, 1);
-    private Direction last = new Direction(0, 1);
-    private Direction lastOk = new Direction(0, 1);
+    private Position last = new Position(0, 1);
+    private Position lastOk = new Position(0, 1);
 
     @Override
-    public Direction getDirection(Snake snake) {
-        Direction direction = last.subtract(snake.getHead().center());
+    public Position getDirection(Snake snake) {
+        Position direction = last.subtract(snake.getHead().center());
 
         if (direction.getLength() < 30) {
             return lastOk;
@@ -28,7 +27,7 @@ public class LibgdxPlayerInteraction implements PlayerInteraction {
                     .add(lastOk)
                     .normalize();
 
-            return new Direction(middle.getX(), middle.getY());
+            return new Position(middle.getX(), middle.getY());
         }
 
         lastOk = direction;
@@ -40,7 +39,7 @@ public class LibgdxPlayerInteraction implements PlayerInteraction {
         this.camera.set((float) camera.getX(), (float) camera.getY(), 1);
     }
 
-    public void setDirection(Direction last) {
+    public void setDirection(Position last) {
         this.last = last;
     }
 

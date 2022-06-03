@@ -17,8 +17,8 @@ public class DesktopLauncher {
 				.cameraHeight(960F)
 
 				.headSize(30)
-				.headSize(30)
-				.speed(1.25)
+				.fruitSize(10)
+				.speed(1.65)
 				.build();
 
 		SnakeGameLibgdx snake = SnakeGameLibgdx.create(settings, application -> {
