@@ -58,4 +58,14 @@ public class FruitManager {
         return Optional.of(fruit);
     }
 
+    public Optional<Fruit> getFruit(BoundingBox box) {
+        for (Fruit fruit : fruits) {
+            if (fruit.getBoundingBox().contains(box)) {
+                return Optional.of(fruit);
+            }
+        }
+
+        return Optional.empty();
+    }
+
 }

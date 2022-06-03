@@ -57,6 +57,7 @@ public class LibgdxGraphicsApplication extends Game {
 
 		elementsTextures = Map.of(
 				GraphicsElement.Type.SNAKE_HEAD, new Texture("snake_head.png"),
+				GraphicsElement.Type.SNAKE_BODY, new Texture("snake_body.png"),
 				GraphicsElement.Type.APPLE, new Texture("apple.png"),
 				GraphicsElement.Type.COCONUT, new Texture("coconut.png")
 		);

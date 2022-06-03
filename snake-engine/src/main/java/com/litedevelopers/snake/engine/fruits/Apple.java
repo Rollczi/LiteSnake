@@ -12,7 +12,7 @@ public class Apple extends AbstractFruit implements Fruit, Entity {
 
     @Override
     public void applyOnSnake(Snake snake) {
-
+        snake.setLength(snake.getLength() + 1);
     }
 
 }

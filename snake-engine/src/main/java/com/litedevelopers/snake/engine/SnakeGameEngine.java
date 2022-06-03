@@ -1,5 +1,7 @@
 package com.litedevelopers.snake.engine;
 
+import com.litedevelopers.snake.engine.event.fruit.FruitEatEvent;
+import com.litedevelopers.snake.engine.fruits.Fruit;
 import com.litedevelopers.snake.engine.fruits.FruitManager;
 import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.platform.Player;
@@ -13,10 +15,7 @@ import com.litedevelopers.snake.engine.event.snake.SnakeDeathEvent;
 import com.litedevelopers.snake.engine.event.snake.SnakeMoveEvent;
 import com.litedevelopers.snake.engine.event.snake.SnakeSpawnEvent;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -118,6 +117,10 @@ public class SnakeGameEngine implements AutoCloseable{
                 }
             }
 
+            this.fruitManager.getFruit(snake.getHead()).ifPresent(value -> {
+                value.applyOnSnake(snake);
+                eventHandler.call(new FruitEatEvent(value, snake));
+            });
         }
     }
 

@@ -34,10 +34,13 @@ class SnakeFreeInSpace implements Snake {
     @Override
     public Position move(double velocity, Position direction) {
         if (this.bodyParts.size() > 0) {
-            this.bodyParts.add(0, this.head);
-            this.bodyParts.remove(this.bodyParts.size() - 1);
-        }
 
+            //TODO: fix
+            if (!this.head.contains(bodyParts.get(this.bodyParts.size() - 1))) {
+                this.bodyParts.add(0, this.head);
+                this.bodyParts.remove(this.bodyParts.size() - 1);
+            }
+        }
 
         this.head = this.head.move(direction
                 .normalize()

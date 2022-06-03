@@ -7,7 +7,7 @@ public class FruitEatEvent extends FruitEvent {
 
     private final Snake by;
 
-    protected FruitEatEvent(Fruit fruit, Snake by) {
+    public FruitEatEvent(Fruit fruit, Snake by) {
         super(fruit);
         this.by = by;
     }
