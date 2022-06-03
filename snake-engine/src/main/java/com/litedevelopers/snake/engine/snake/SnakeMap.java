@@ -1,8 +1,8 @@
 package com.litedevelopers.snake.engine.snake;
 
+import com.litedevelopers.snake.engine.fruits.Apple;
 import com.litedevelopers.snake.engine.math.BoundingBox;
 import com.litedevelopers.snake.engine.math.Position;
-import com.litedevelopers.snake.engine.platform.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Collections;
-import java.util.UUID;
 
 public final class SnakeMap extends BoundingBox {
 
@@ -62,7 +61,7 @@ public final class SnakeMap extends BoundingBox {
             throw new IllegalStateException("This snake already exists!");
         }
 
-        Snake snake = new SnakeFreeInSpace(name, this.getCenter(), sizeHead);
+        Snake snake = new SnakeFreeInSpace(name, this.center(), sizeHead);
 
         this.snakes.add(snake);
         this.snakesByName.put(name, snake);

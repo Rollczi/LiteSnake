@@ -3,11 +3,12 @@ package com.litedevelopers.snake.engine.graphics;
 import com.litedevelopers.snake.engine.snake.BodyPart;
 import com.litedevelopers.snake.engine.snake.Snake;
 import com.litedevelopers.snake.engine.snake.SnakeMap;
-import com.litedevelopers.snake.engine.snake.event.Listener;
-import com.litedevelopers.snake.engine.snake.event.Subscribe;
-import com.litedevelopers.snake.engine.snake.event.map.SnakeCreateMapEvent;
-import com.litedevelopers.snake.engine.snake.event.snake.SnakeMoveEvent;
-import com.litedevelopers.snake.engine.snake.event.snake.SnakeSpawnEvent;
+import com.litedevelopers.snake.engine.event.Listener;
+import com.litedevelopers.snake.engine.event.Subscribe;
+import com.litedevelopers.snake.engine.event.map.SnakeCreateMapEvent;
+import com.litedevelopers.snake.engine.event.map.SnakeDeleteMapEvent;
+import com.litedevelopers.snake.engine.event.snake.SnakeMoveEvent;
+import com.litedevelopers.snake.engine.event.snake.SnakeSpawnEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +28,12 @@ public class GraphicsController<T extends GraphicsElement> implements Listener {
     @Subscribe
     public void onMapRender(SnakeCreateMapEvent event) {
         SnakeMap snakeMap = event.getSnakeMap();
+        this.graphicsRenderer.updateMapGrid(snakeMap);
+    }
 
-        this.graphicsRenderer.createBox(snakeMap);
+    @Subscribe
+    public void onMapRender(SnakeDeleteMapEvent event) {
+        this.graphicsRenderer.clearMapGrid();
     }
 
     @Subscribe
@@ -44,14 +49,13 @@ public class GraphicsController<T extends GraphicsElement> implements Listener {
 
         List<T> boxes = new ArrayList<>();
 
-        boxes.add(this.graphicsRenderer.createBox(snake.getHead()));
+        boxes.add(this.graphicsRenderer.createBox(snake.getHead(), GraphicsElement.Type.SNAKE_HEAD));
 
         for (BodyPart bodyPart : snake.getBodyParts()) {
-            boxes.add(this.graphicsRenderer.createBox(bodyPart));
+            boxes.add(this.graphicsRenderer.createBox(bodyPart, GraphicsElement.Type.SNAKE_BODY));
         }
 
         this.graphicsElements.put(snake, boxes);
-        this.graphicsRenderer.refresh();
     }
 
     @Subscribe
@@ -67,14 +71,13 @@ public class GraphicsController<T extends GraphicsElement> implements Listener {
 
         List<T> boxes = new ArrayList<>();
 
-        boxes.add(this.graphicsRenderer.createBox(snake.getHead()));
+        boxes.add(this.graphicsRenderer.createBox(snake.getHead(), GraphicsElement.Type.SNAKE_HEAD));
 
         for (BodyPart bodyPart : snake.getBodyParts()) {
-            boxes.add(this.graphicsRenderer.createBox(bodyPart));
+            boxes.add(this.graphicsRenderer.createBox(bodyPart, GraphicsElement.Type.SNAKE_BODY));
         }
 
         this.graphicsElements.put(snake, boxes);
-        this.graphicsRenderer.refresh();
     }
 
 }

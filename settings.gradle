@@ -1,4 +1,5 @@
 rootProject.name = 'LiteSnake'
 include ':snake-engine'
-include ':snake-graphics2d'
+include ':snake-libgdx:core'
+include ':snake-libgdx:desktop'
 

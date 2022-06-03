@@ -16,20 +16,32 @@ public class BoundingBox {
         return new BoundingBox(position, position.add(difference));
     }
 
-    public Position getMinPosition() {
+    public Position getMin() {
         return min;
     }
 
-    public Position getMaxPosition() {
+    public Position getMax() {
         return max;
     }
 
-    public Position getCenter() {
+    public double width() {
+        return this.max.getX() - this.min.getX();
+    }
+
+    public double height() {
+        return this.max.getY() - this.min.getY();
+    }
+
+    public Position center() {
         return new Position((min.getX() + max.getX()) / 2, (min.getY() + max.getY()) / 2);
     }
 
     public boolean contains(BoundingBox boundingBox) {
         return this.contains(boundingBox.min) || this.contains(boundingBox.max);
+    }
+
+    public boolean containsAll(BoundingBox boundingBox) {
+        return this.contains(boundingBox.min) && this.contains(boundingBox.max);
     }
 
     public boolean contains(Position position) {

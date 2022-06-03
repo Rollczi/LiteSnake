@@ -1,12 +1,14 @@
 package com.litedevelopers.snake.engine.math;
 
+import java.util.Objects;
+
 public class Position {
 
     public static final Position ZERO = new Position(0, 0);
     public static final Position ONE = new Position(1, 1);
 
-    private final double x;
-    private final double y;
+    protected final double x;
+    protected final double y;
 
     public Position(double x, double y) {
         this.x = x;
@@ -19,14 +21,6 @@ public class Position {
 
     public double getY() {
         return y;
-    }
-
-    public int getIntX() {
-        return (int) x;
-    }
-
-    public int getIntY() {
-        return (int) y;
     }
 
     public Position getDifference(Position position) {
@@ -92,5 +86,18 @@ public class Position {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position)) return false;
+        Position position = (Position) o;
+        return Double.compare(position.x, x) == 0 && Double.compare(position.y, y) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

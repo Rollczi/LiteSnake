@@ -6,14 +6,5 @@ import java.awt.*;
 
 class AndroidElement implements GraphicsElement {
 
-    private final Shape shape;
-
-    AndroidElement(Shape shape) {
-        this.shape = shape;
-    }
-
-    public Shape getShape() {
-        return shape;
-    }
 
 }

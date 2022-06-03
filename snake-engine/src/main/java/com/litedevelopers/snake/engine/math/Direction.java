@@ -15,4 +15,16 @@ public class Direction extends Position {
         return new Direction(-this.getX(), -this.getY());
     }
 
+    public Direction subtract(double xy) {
+        return subtract(xy, xy);
+    }
+
+    public Direction subtract(double x, double y) {
+        return new Direction(this.x - x, this.y - y);
+    }
+
+    public Direction subtract(Position vector) {
+        return subtract(vector.x, vector.y);
+    }
+
 }
