@@ -14,7 +14,7 @@ public class RotatedBox extends BoundingBox {
     }
 
     public float rotation() {
-        return (float) Math.atan2(direction.y, direction.x);// * MathUtils.radiansToDegrees;;
+        return (float) MathUtils.toAngle(this.direction);
     }
 
     public RotatedBox direction(Position direction) {

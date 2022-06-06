@@ -11,16 +11,23 @@ public interface Snake {
 
     Position move(double velocity, Position direction);
 
-
     RotatedBox getHead();
 
-    Position getPosition();
+    Position getHeadPosition();
+
+    Position getDirection();
 
     List<RotatedBox> getBodyParts();
 
+    int getLength();
+
     void setLength(int length);
 
-    int getLength();
+    double getBoost();
+
+    void setBoost(double boost);
+
+    void addBoost(double boost);
 
     double getPartSize();
 

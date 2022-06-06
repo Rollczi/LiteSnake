@@ -3,7 +3,7 @@ package com.litedevelopers.snake.engine.test;
 import com.litedevelopers.snake.engine.GameSettings;
 import com.litedevelopers.snake.engine.SnakeGameEngine;
 import com.litedevelopers.snake.engine.graphics.GraphicsController;
-import com.litedevelopers.snake.engine.platform.Player;
+import com.litedevelopers.snake.engine.player.Player;
 import com.litedevelopers.snake.engine.event.EventHandler;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ class TestEngine {
         eventHandler.registerListener(graphicsController); // Zarejestrowanie listener'a
 
         SnakeGameEngine snakeGameEngine = new SnakeGameEngine(eventHandler); // silnik (co 50 ms wykonuje tick od teraz)
-        snakeGameEngine.setGameSettings(new GameSettings(100, 300, cameraWidth, cameraHeight, 10)); // ustawienia silnika
+        snakeGameEngine.setGameSettings(new GameSettings()); // ustawienia silnika
 
         Player player = new Player("test", new RandomPlayerInteraction()); // nowy gracz (w naszym przypadku 1 wystarczy)
 

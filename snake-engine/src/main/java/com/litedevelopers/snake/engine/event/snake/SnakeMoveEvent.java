@@ -1,7 +1,7 @@
 package com.litedevelopers.snake.engine.event.snake;
 
 import com.litedevelopers.snake.engine.math.Position;
-import com.litedevelopers.snake.engine.platform.Player;
+import com.litedevelopers.snake.engine.player.Player;
 import com.litedevelopers.snake.engine.snake.Snake;
 
 public class SnakeMoveEvent extends SnakeEvent {

@@ -7,7 +7,7 @@ public class SnakeFreeInSpaceTest {
 
     @Test
     public void testGetGrid() {
-        SnakeFreeInSpace snake = new SnakeFreeInSpace("Kamil Ślimak", 1);
+        //SnakeFreeInSpace snake = new SnakeFreeInSpace("Kamil Ślimak", 1); XD
 
 //        System.out.println(snake.getHead().getCenter());
 //        snake.move(Direction.DOWN);

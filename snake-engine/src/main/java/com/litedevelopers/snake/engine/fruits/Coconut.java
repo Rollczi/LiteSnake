@@ -12,7 +12,7 @@ public class Coconut extends AbstractFruit implements Entity {
 
     @Override
     public void applyOnSnake(Snake snake) {
-
+        snake.addBoost(50.0);
     }
 
 }

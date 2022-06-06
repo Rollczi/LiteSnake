@@ -1,5 +1,8 @@
 package com.litedevelopers.snake.engine.math;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BoundingBox {
 
     protected final Position min;
@@ -37,7 +40,7 @@ public class BoundingBox {
     }
 
     public boolean contains(BoundingBox boundingBox) {
-        return this.contains(boundingBox.min) || this.contains(boundingBox.max);
+        return this.contains(boundingBox.min) || this.contains(boundingBox.max) || boundingBox.contains(this.min) || boundingBox.contains(this.max);
     }
 
     public boolean containsAll(BoundingBox boundingBox) {
@@ -56,6 +59,34 @@ public class BoundingBox {
         return true;
     }
 
+    public Position nearestPoint(Position pos) {
+        Map<Double, Position> pointsByDistance = new HashMap<>();
+
+        Position minX = new Position(min.getX(), pos.getY());
+        pointsByDistance.put(minX.distance(pos), minX);
+
+        Position maxX = new Position(max.getX(), pos.getY());
+        pointsByDistance.put(maxX.distance(pos), maxX);
+
+        Position minY = new Position(pos.getX(), min.getY());
+        pointsByDistance.put(minY.distance(pos), minY);
+
+        Position maxY = new Position(pos.getX(), max.getY());
+        pointsByDistance.put(maxY.distance(pos), maxY);
+
+
+        double last = Double.MAX_VALUE;
+        Position lastPoint = Position.ZERO;
+
+        for (Map.Entry<Double, Position> entry : pointsByDistance.entrySet()) {
+            if (entry.getKey() < last) {
+                last = entry.getKey();
+                lastPoint = entry.getValue();
+            }
+        }
+
+        return lastPoint;
+    }
 
     @Override
     public String toString() {

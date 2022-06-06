@@ -2,9 +2,12 @@ package com.litedevelopers.snake.engine.fruits;
 
 import com.litedevelopers.snake.engine.GameSettings;
 import com.litedevelopers.snake.engine.event.EventHandler;
+import com.litedevelopers.snake.engine.event.fruit.FruitEatEvent;
 import com.litedevelopers.snake.engine.event.fruit.FruitSpawnEvent;
 import com.litedevelopers.snake.engine.math.BoundingBox;
+import com.litedevelopers.snake.engine.math.MathUtils;
 import com.litedevelopers.snake.engine.math.Position;
+import com.litedevelopers.snake.engine.snake.Snake;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -14,6 +17,7 @@ public class FruitManager {
 
     private final Random random = new Random();
     private final EventHandler eventHandler;
+    private final GameSettings settings;
 
     private final Set<FruitCreator> fruitsCreators = new HashSet<>();
     private final Set<Fruit> fruits = new HashSet<>();
@@ -21,6 +25,7 @@ public class FruitManager {
 
     public FruitManager(EventHandler eventHandler, GameSettings settings) {
         this.eventHandler = eventHandler;
+        this.settings = settings;
         this.registerCreator(position -> new Coconut(position, settings.fruitSize()));
         this.registerCreator(position -> new Apple(position, settings.fruitSize()));
     }
@@ -38,18 +43,16 @@ public class FruitManager {
     }
 
     public Optional<Fruit> spawnFruit() {
-        if (!(random.nextDouble() <= 0.01)) {
+        if (!(random.nextDouble() <= settings.fortune())) {
             return Optional.empty();
         }
 
-        int x = random.nextInt((int) reach.width());
-        int y = random.nextInt((int) reach.height());
-
+        Position position = MathUtils.random(reach);
         Fruit fruit = fruitsCreators.stream()
                 .skip(random.nextInt(fruitsCreators.size()))
                 .findFirst()
                 .orElseThrow(IllegalStateException::new)
-                .create(reach.getMin().add(x, y));
+                .create(position);
 
 
         fruits.add(fruit);
@@ -60,7 +63,7 @@ public class FruitManager {
 
     public Optional<Fruit> getFruit(BoundingBox box) {
         for (Fruit fruit : fruits) {
-            if (fruit.getBoundingBox().contains(box)) {
+            if (box.contains(fruit.getBoundingBox())) {
                 return Optional.of(fruit);
             }
         }
@@ -68,4 +71,9 @@ public class FruitManager {
         return Optional.empty();
     }
 
+    public void eatFruit(Fruit fruit, Snake snake) {
+        fruits.remove(fruit);
+        fruit.applyOnSnake(snake);
+        eventHandler.call(new FruitEatEvent(fruit, snake));
+    }
 }

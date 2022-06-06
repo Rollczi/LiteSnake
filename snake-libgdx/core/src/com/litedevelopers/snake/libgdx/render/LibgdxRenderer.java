@@ -50,9 +50,14 @@ public class LibgdxRenderer implements GraphicsRenderer<LibgdxElement> {
     }
 
     @Override
-    public void moveBox(LibgdxElement graphicsBox, Position from, Position to) {
-        graphicsBox.rectangle.x = (float) to.getX();
-        graphicsBox.rectangle.y = (float) to.getY();
+    public void moveBox(LibgdxElement graphicsBox, Position to) {
+        graphicsBox.rectangle.x = (float) to.getX() - graphicsBox.rectangle.width / 2;
+        graphicsBox.rectangle.y = (float) to.getY() - graphicsBox.rectangle.height / 2;
+    }
+
+    @Override
+    public void rotateBox(LibgdxElement graphicsBox, float rotation) {
+        graphicsBox.rotation = rotation;
     }
 
 }

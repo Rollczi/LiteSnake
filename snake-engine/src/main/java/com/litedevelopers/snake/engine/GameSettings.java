@@ -1,32 +1,137 @@
 package com.litedevelopers.snake.engine;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.experimental.Accessors;
-
-@Getter
-@Builder
-@Accessors(fluent = true)
-@AllArgsConstructor
 public class GameSettings {
 
-    private final double mapWidth;
-    private final double mapHeight;
-    private final float cameraWidth;
-    private final float cameraHeight;
-    private final double headSize;
-    private final double fruitSize;
-    private final double speed;
+    private double mapWidth = 800;
+    private double mapHeight = 480;
+    private float cameraWidth = 800;
+    private float cameraHeight = 480;
+    private double headSize  = 20;
+    private int startLength  = 2;
+    private double fruitSize  = 20;
+    private double speed = 5.0;
+    private double fortune = 0.1;
 
-    public GameSettings() {
-        this.mapWidth = 800;
-        this.mapHeight = 480;
-        this.cameraHeight = 800;
-        this.cameraWidth = 480;
-        this.headSize = 20;
-        this.fruitSize = 20;
-        this.speed = 5.0;
+    public GameSettings(double mapWidth, double mapHeight, float cameraWidth, float cameraHeight, double headSize, int startLength, double fruitSize, double speed, double fortune) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.cameraWidth = cameraWidth;
+        this.cameraHeight = cameraHeight;
+        this.headSize = headSize;
+        this.startLength = startLength;
+        this.fruitSize = fruitSize;
+        this.speed = speed;
+        this.fortune = fortune;
     }
 
+    public GameSettings() {
+    }
+
+    public static GameSettingsBuilder builder() {
+        return new GameSettingsBuilder();
+    }
+
+    public double mapWidth() {
+        return this.mapWidth;
+    }
+
+    public double mapHeight() {
+        return this.mapHeight;
+    }
+
+    public float cameraWidth() {
+        return this.cameraWidth;
+    }
+
+    public float cameraHeight() {
+        return this.cameraHeight;
+    }
+
+    public double headSize() {
+        return this.headSize;
+    }
+
+    public int startLength() {
+        return this.startLength;
+    }
+
+    public double fruitSize() {
+        return this.fruitSize;
+    }
+
+    public double speed() {
+        return this.speed;
+    }
+
+    public double fortune() {
+        return this.fortune;
+    }
+
+    public static class GameSettingsBuilder {
+        private double mapWidth;
+        private double mapHeight;
+        private float cameraWidth;
+        private float cameraHeight;
+        private double headSize;
+        private int startLength;
+        private double fruitSize;
+        private double speed;
+        private double fortune;
+
+        GameSettingsBuilder() {
+        }
+
+        public GameSettingsBuilder mapWidth(double mapWidth) {
+            this.mapWidth = mapWidth;
+            return this;
+        }
+
+        public GameSettingsBuilder mapHeight(double mapHeight) {
+            this.mapHeight = mapHeight;
+            return this;
+        }
+
+        public GameSettingsBuilder cameraWidth(float cameraWidth) {
+            this.cameraWidth = cameraWidth;
+            return this;
+        }
+
+        public GameSettingsBuilder cameraHeight(float cameraHeight) {
+            this.cameraHeight = cameraHeight;
+            return this;
+        }
+
+        public GameSettingsBuilder headSize(double headSize) {
+            this.headSize = headSize;
+            return this;
+        }
+
+        public GameSettingsBuilder startLength(int startLength) {
+            this.startLength = startLength;
+            return this;
+        }
+
+        public GameSettingsBuilder fruitSize(double fruitSize) {
+            this.fruitSize = fruitSize;
+            return this;
+        }
+
+        public GameSettingsBuilder speed(double speed) {
+            this.speed = speed;
+            return this;
+        }
+
+        public GameSettingsBuilder fortune(double fortune) {
+            this.fortune = fortune;
+            return this;
+        }
+
+        public GameSettings build() {
+            return new GameSettings(mapWidth, mapHeight, cameraWidth, cameraHeight, headSize, startLength, fruitSize, speed, fortune);
+        }
+
+        public String toString() {
+            return "GameSettings.GameSettingsBuilder(mapWidth=" + this.mapWidth + ", mapHeight=" + this.mapHeight + ", cameraWidth=" + this.cameraWidth + ", cameraHeight=" + this.cameraHeight + ", headSize=" + this.headSize + ", startLength=" + this.startLength + ", fruitSize=" + this.fruitSize + ", speed=" + this.speed + ", fortune=" + this.fortune + ")";
+        }
+    }
 }

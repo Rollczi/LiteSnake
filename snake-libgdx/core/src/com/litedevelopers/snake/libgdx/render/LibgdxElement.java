@@ -6,7 +6,7 @@ import com.litedevelopers.snake.engine.graphics.GraphicsElement;
 public class LibgdxElement implements GraphicsElement {
 
     final Rectangle rectangle;
-    final float rotation;
+    float rotation;
     final Type type;
 
     LibgdxElement(Rectangle rectangle, float rotation, Type type) {

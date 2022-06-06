@@ -2,9 +2,10 @@ package com.litedevelopers.snake.libgdx;
 
 import com.litedevelopers.snake.engine.GameSettings;
 import com.litedevelopers.snake.engine.SnakeGameEngine;
+import com.litedevelopers.snake.engine.ai.AIPlayer;
 import com.litedevelopers.snake.engine.graphics.GraphicsController;
 import com.litedevelopers.snake.engine.graphics.GraphicsRenderer;
-import com.litedevelopers.snake.engine.platform.Player;
+import com.litedevelopers.snake.engine.player.Player;
 import com.litedevelopers.snake.engine.event.EventHandler;
 import com.litedevelopers.snake.libgdx.render.LibgdxElement;
 import com.litedevelopers.snake.libgdx.render.LibgdxGraphicsApplication;
@@ -33,6 +34,12 @@ public class SnakeGameLibgdx {
 
         SnakeGameEngine snakeGameEngine = new SnakeGameEngine(eventHandler, settings);
         snakeGameEngine.registerPlayer(new Player("rollczi", state));
+
+        for (int i = 0; i < 15; i++) {
+            snakeGameEngine.registerPlayer(new AIPlayer("test" + i));
+        }
+
+        snakeGameEngine.startTick();
 
         launcher.launch(application);
 

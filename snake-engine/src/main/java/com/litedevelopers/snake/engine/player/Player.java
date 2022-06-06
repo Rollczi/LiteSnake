@@ -1,7 +1,4 @@
-package com.litedevelopers.snake.engine.platform;
-
-import com.litedevelopers.snake.engine.math.Position;
-import com.litedevelopers.snake.engine.snake.Snake;
+package com.litedevelopers.snake.engine.player;
 
 import java.util.UUID;
 
@@ -31,12 +28,8 @@ public class Player {
         return name;
     }
 
-    public void setCamera(Position position) {
-        directionProvider.setCamera(position);
-    }
-
-    public Position getDirection(Snake snake) {
-        return directionProvider.getDirection(snake);
+    public PlayerInteraction interaction() {
+        return this.directionProvider;
     }
 
 }

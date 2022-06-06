@@ -14,16 +14,13 @@ class SnakeFreeInSpace implements Snake {
 
     private RotatedBox head;
     private final List<RotatedBox> bodyParts = new ArrayList<>();
+    private double boost = 0.0;
 
-
-    public SnakeFreeInSpace(String name, Position position, double headSize) {
+    SnakeFreeInSpace(String name, Position position, double headSize, int startLength) {
         this.name = name;
         this.partSize = headSize;
-        this.head = new RotatedBox(position.subtract(partSize), position.add(partSize), new Position(0, 0));
-    }
-
-    SnakeFreeInSpace(String name, double headSize) {
-        this(name, new Position(0, 0), headSize);
+        this.head = new RotatedBox(position.subtract(partSize), position.add(partSize), new Position(0, 1));
+        this.setLength(startLength);
     }
 
     @Override
@@ -33,21 +30,27 @@ class SnakeFreeInSpace implements Snake {
 
     @Override
     public Position move(double velocity, Position direction) {
-        if (this.bodyParts.size() > 0) {
-
-            //TODO: fix
-            if (!this.head.contains(bodyParts.get(this.bodyParts.size() - 1))) {
-                this.bodyParts.add(0, this.head);
-                this.bodyParts.remove(this.bodyParts.size() - 1);
-            }
+        if (direction.isZero() || direction.isNaN()) {
+            direction = new Position(1, 1);
         }
 
-        this.head = this.head.move(direction
+        double size = partSize * 2;
+        Position move = direction
                 .normalize()
-                .multiple(velocity, velocity))
-                .direction(direction.normalize());
-        System.out.println(this.head.direction());
-        System.out.println(this.head.rotation());
+                .multiple(velocity, velocity);
+
+        if (this.bodyParts.size() > 0 && this.head.center().distance(bodyParts.get(0).center()) > size) {
+            Position directionToBody = this.bodyParts.get(0).center().subtract(this.head.center());
+
+            if (directionToBody.isZero()) {
+                directionToBody = move;
+            }
+
+            this.bodyParts.add(0, head.move(directionToBody.setLength(size / 3)));
+            this.bodyParts.remove(this.bodyParts.size() - 1);
+        }
+
+        this.head = this.head.move(move).direction(direction.normalize());
 
         return this.head.center();
     }
@@ -58,8 +61,13 @@ class SnakeFreeInSpace implements Snake {
     }
 
     @Override
-    public Position getPosition() {
+    public Position getHeadPosition() {
         return this.head.center();
+    }
+
+    @Override
+    public Position getDirection() {
+        return this.head.direction();
     }
 
     @Override
@@ -84,8 +92,26 @@ class SnakeFreeInSpace implements Snake {
         }
 
         for (int i = 0; i < length - size; i++) {
-            this.bodyParts.add(this.getLast());
+            RotatedBox last = this.getLast();
+            Position move = last.direction().normalize().multiple(this.partSize * - 2);
+
+            this.bodyParts.add(last.move(move));
         }
+    }
+
+    @Override
+    public double getBoost() {
+        return boost;
+    }
+
+    @Override
+    public void setBoost(double boost) {
+        this.boost = boost;
+    }
+
+    @Override
+    public void addBoost(double boost) {
+        this.boost += boost;
     }
 
     public RotatedBox getLast() {

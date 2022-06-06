@@ -3,8 +3,11 @@ package com.litedevelopers.snake.libgdx.render;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,9 +22,10 @@ import com.litedevelopers.snake.engine.math.Position;
 import com.litedevelopers.snake.engine.snake.SnakeMap;
 import com.litedevelopers.snake.libgdx.LibgdxPlayerInteraction;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class LibgdxGraphicsApplication extends Game {
 
@@ -34,8 +38,8 @@ public class LibgdxGraphicsApplication extends Game {
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
 
-	Map<GraphicsElement.Type, Texture> elementsTextures;
-	Set<LibgdxElement> elements = ConcurrentHashMap.newKeySet();
+	Map<GraphicsElement.Type, CustomTexture> elementsTextures;
+	final List<LibgdxElement> elements = Collections.synchronizedList(new ArrayList<>());
 
 	SnakeMap map = SnakeMap.CLOSED;
 
@@ -56,11 +60,21 @@ public class LibgdxGraphicsApplication extends Game {
 		shapeRenderer = new ShapeRenderer();
 
 		elementsTextures = Map.of(
-				GraphicsElement.Type.SNAKE_HEAD, new Texture("snake_head.png"),
-				GraphicsElement.Type.SNAKE_BODY, new Texture("snake_body.png"),
-				GraphicsElement.Type.APPLE, new Texture("apple.png"),
-				GraphicsElement.Type.COCONUT, new Texture("coconut.png")
+				GraphicsElement.Type.SNAKE_HEAD, CustomTexture.of("snake_head.png", 1.0F),
+				GraphicsElement.Type.SNAKE_BODY, CustomTexture.of("snake_body.png"),
+				GraphicsElement.Type.APPLE, CustomTexture.of("apple.png"),
+				GraphicsElement.Type.COCONUT, CustomTexture.of("coconut.png")
 		);
+
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(new CameraScrollController(viewport));
+
+		Gdx.input.setInputProcessor(inputMultiplexer);
+
+		Pixmap pixmap = new Pixmap(Gdx.files.internal("cursor.png"));
+		Cursor cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
+		pixmap.dispose();
+		Gdx.graphics.setCursor(cursor);
 	}
 
 	float angle = 0.0F;
@@ -76,43 +90,39 @@ public class LibgdxGraphicsApplication extends Game {
 		renderMap();
 		renderElements();
 
-		camera.position.lerp(playerInteraction.getCamera(), 0.007F);
+		camera.position.lerp(playerInteraction.getCamera(), 0.1F);
 	}
 
 	private void readInput() {
-
 		touchPos.set(Gdx.input.getX(), Gdx.input.getY());
 		viewport.unproject(touchPos);
 
 		playerInteraction.setDirection(new Position(touchPos.x, touchPos.y));
-
-
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-		}
-
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-		}
+		playerInteraction.setBoosting(Gdx.input.isKeyPressed(Input.Keys.SPACE));
 	}
 
 	private void renderElements() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
+		synchronized (elements) {
+			for (LibgdxElement element : elements) {
 
-		for (LibgdxElement element : elements) {
+				CustomTexture customTexture = elementsTextures.get(element.type);
+				Texture texture = customTexture.texture;
+				Sprite glowSprite = new Sprite(texture);
 
-			Texture texture = elementsTextures.get(element.type);
-			Sprite glowSprite = new Sprite(texture);
+				float multi = element.rectangle.width / glowSprite.getWidth();
 
-			glowSprite.setSize(element.rectangle.width, element.rectangle.height);
-			glowSprite.setOriginCenter();
-			glowSprite.setRotation(element.rotation);
-			glowSprite.setOriginBasedPosition(element.rectangle.x, element.rectangle.y);
+				glowSprite.setSize(glowSprite.getWidth() * multi, glowSprite.getHeight() * multi);
+				glowSprite.setScale(customTexture.size);
+				glowSprite.setRotation(element.rotation - 90);
+				glowSprite.setOriginCenter();
+				glowSprite.setPosition(element.rectangle.x, element.rectangle.y);
 
-			glowSprite.draw(batch);
+				glowSprite.draw(batch);
+			}
 		}
-
-
 
 		batch.end();
 	}
@@ -138,7 +148,6 @@ public class LibgdxGraphicsApplication extends Game {
 		}
 	}
 
-
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height, true);
@@ -155,6 +164,25 @@ public class LibgdxGraphicsApplication extends Game {
 
 	void removeElement(LibgdxElement element) {
 		elements.remove(element);
+	}
+
+	private static class CustomTexture {
+		private final Texture texture;
+		private final float size;
+
+		private CustomTexture(Texture texture, float size) {
+			this.texture = texture;
+			this.size = size;
+		}
+
+		private static CustomTexture of(String name, float size) {
+			return new CustomTexture(new Texture(name), size);
+		}
+
+		private static CustomTexture of(String name) {
+			return new CustomTexture(new Texture(name), 1.0F);
+		}
+
 	}
 
 }
