@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 final class EngineUtils {
 
     private final static Map<Double, Integer> ANGLE_BLOCKER = Map.of(
-            40.0, 15_000,
+            70.0, 9_000,
             20.0, 7_000,
             10.0, 5_000,
             2.0, 3_000,
