@@ -2,4 +2,6 @@ rootProject.name = 'LiteSnake'
 include ':snake-engine'
 include ':snake-libgdx:core'
 include ':snake-libgdx:desktop'
+include ':snake-libgdx:android'
+include ':snake-minecraft'
 

@@ -12,8 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.wisepersist:gwt-gradle-plugin:1.1.16'
-        classpath 'org.gretty:gretty:3.0.7'
+        classpath 'com.android.tools.build:gradle:7.0.4'
     }
 }
 
@@ -38,6 +37,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
+        maven { url = uri("https://repo.eternalcode.pl/releases") }
     }
 }
 
@@ -48,10 +48,19 @@ project(":snake-engine") {
     }
 }
 
+project(":snake-minecraft") {
+    apply plugin: "java-library"
+
+    dependencies {
+        api project(":snake-engine")
+        implementation("dev.rollczi.litecommands:bukkit:2.0.0-pre17")
+        compileOnly("org.spigotmc:spigot:1.18-R0.1-SNAPSHOT")
+        compileOnly("org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT")
+    }
+}
 
 project(":snake-libgdx:core") {
     apply plugin: "java-library"
-
 
     dependencies {
         api project(":snake-engine")
@@ -67,7 +76,6 @@ project(":snake-libgdx:core") {
 project(":snake-libgdx:desktop") {
     apply plugin: "java-library"
 
-
     dependencies {
         api project(":snake-libgdx:core")
 
@@ -76,6 +84,22 @@ project(":snake-libgdx:desktop") {
 
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
+
+    }
+}
+
+project(":snake-libgdx:android") {
+    apply plugin: "com.android.application"
+
+    configurations { natives }
+
+    dependencies {
+        implementation project(":snake-libgdx:core")
+        api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
 
     }
 }

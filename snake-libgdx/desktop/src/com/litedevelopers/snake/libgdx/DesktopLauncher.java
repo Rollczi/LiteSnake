@@ -9,22 +9,26 @@ import com.litedevelopers.snake.engine.SnakeGameEngine;
 public class DesktopLauncher {
 
 	public static void main (String[] arg) {
+
 		GameSettings settings = GameSettings.builder()
 				.mapWidth(3000F)
 				.mapHeight(3000F)
 
 				.cameraWidth(1600F)
 				.cameraHeight(960F)
+				.weightRotationBlocker(1.0)
 
 				.headSize(15)
 				.startLength(5)
 				.fruitSize(15)
 				.speed(1.65)
 				.fortune(0.1)
+
 				.build();
 
 		SnakeGameLibgdx snake = SnakeGameLibgdx.create(settings, application -> {
 			Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+
 
 			config.setTitle("LiteSnake");
 			config.setForegroundFPS(75);

@@ -11,8 +11,9 @@ public class GameSettings {
     private double fruitSize  = 20;
     private double speed = 5.0;
     private double fortune = 0.1;
+    private double weightRotationBlocker = 1.0;
 
-    public GameSettings(double mapWidth, double mapHeight, float cameraWidth, float cameraHeight, double headSize, int startLength, double fruitSize, double speed, double fortune) {
+    public GameSettings(double mapWidth, double mapHeight, float cameraWidth, float cameraHeight, double headSize, int startLength, double fruitSize, double speed, double fortune, double weightRotationBlocker) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.cameraWidth = cameraWidth;
@@ -22,6 +23,7 @@ public class GameSettings {
         this.fruitSize = fruitSize;
         this.speed = speed;
         this.fortune = fortune;
+        this.weightRotationBlocker = weightRotationBlocker;
     }
 
     public GameSettings() {
@@ -67,6 +69,10 @@ public class GameSettings {
         return this.fortune;
     }
 
+    public double weightRotationBlocker() {
+        return this.weightRotationBlocker;
+    }
+
     public static class GameSettingsBuilder {
         private double mapWidth;
         private double mapHeight;
@@ -77,6 +83,7 @@ public class GameSettings {
         private double fruitSize;
         private double speed;
         private double fortune;
+        private double weightRotationBlocker;
 
         GameSettingsBuilder() {
         }
@@ -126,12 +133,14 @@ public class GameSettings {
             return this;
         }
 
-        public GameSettings build() {
-            return new GameSettings(mapWidth, mapHeight, cameraWidth, cameraHeight, headSize, startLength, fruitSize, speed, fortune);
+        public GameSettingsBuilder weightRotationBlocker(double weightRotationBlocker) {
+            this.weightRotationBlocker = weightRotationBlocker;
+            return this;
         }
 
-        public String toString() {
-            return "GameSettings.GameSettingsBuilder(mapWidth=" + this.mapWidth + ", mapHeight=" + this.mapHeight + ", cameraWidth=" + this.cameraWidth + ", cameraHeight=" + this.cameraHeight + ", headSize=" + this.headSize + ", startLength=" + this.startLength + ", fruitSize=" + this.fruitSize + ", speed=" + this.speed + ", fortune=" + this.fortune + ")";
+        public GameSettings build() {
+            return new GameSettings(mapWidth, mapHeight, cameraWidth, cameraHeight, headSize, startLength, fruitSize, speed, fortune, weightRotationBlocker);
         }
+
     }
 }

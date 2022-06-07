@@ -14,6 +14,8 @@ import com.litedevelopers.snake.engine.event.snake.SnakeDeathEvent;
 import com.litedevelopers.snake.engine.event.snake.SnakeMoveEvent;
 import com.litedevelopers.snake.engine.event.snake.SnakeSpawnEvent;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -58,6 +60,10 @@ public class SnakeGameEngine implements AutoCloseable{
         this.players.add(player);
     }
 
+    public void unregisterPlayer(Player player) {
+        this.players.remove(player);
+    }
+
     private boolean stated = false;
 
     public void startTick() {
@@ -69,6 +75,8 @@ public class SnakeGameEngine implements AutoCloseable{
         this.schedule();
     }
 
+    private Instant last = Instant.now();
+
     private void schedule() {
         executorService.schedule(() -> {
             try {
@@ -79,6 +87,9 @@ public class SnakeGameEngine implements AutoCloseable{
             }
 
             this.schedule();
+            Duration between = Duration.between(last, Instant.now());
+            System.out.println(between.toMillis());
+            last = Instant.now();
         }, TICK, TimeUnit.MILLISECONDS);
     }
 
@@ -110,8 +121,15 @@ public class SnakeGameEngine implements AutoCloseable{
                 continue;
             }
 
+            if (!players.contains(player)) {
+                this.snakeMap.killSnake(snake.getName());
+                this.eventHandler.call(new SnakeDeathEvent(snake, player));
+                this.snakeRelations.remove(snake);
+                continue;
+            }
+
             PlayerInteraction interaction = player.interaction();
-            Position direction = EngineUtils.correct(snake, interaction.getDirection(snakeMap, snake));
+            Position direction = EngineUtils.correct(snake, interaction.getDirection(snakeMap, snake), gameSettings.weightRotationBlocker());
 
             double speed = gameSettings.speed();
 

@@ -65,8 +65,12 @@ public class PlayerCameraController implements Listener {
         }
 
         Set<Player> viewers = this.snakeViewers.computeIfAbsent(first.get(), k -> new HashSet<>());
+        Set<Player> child = this.snakeViewers.get(event.getSnake());
 
         viewers.add(player);
+        if (child != null) {
+            viewers.addAll(child);
+        }
     }
 
     @Subscribe

@@ -23,7 +23,7 @@ final class EngineUtils {
             .sorted(Comparator.reverseOrder())
             .collect(Collectors.toList());
 
-    static Position correct(Snake snake, Position position) {
+    static Position correct(Snake snake, Position position, double weightBlocker) {
         Position lastOk = snake.getDirection();
         Position direction = position.subtract(snake.getHead().center());
 
@@ -40,7 +40,7 @@ final class EngineUtils {
             }
 
             Position middle = direction
-                    .add(lastOk.multiple(ANGLE_BLOCKER.get(angle)))
+                    .add(lastOk.multiple(ANGLE_BLOCKER.get(angle) * weightBlocker))
                     .normalize();
 
             direction = new Position(middle.getX(), middle.getY());

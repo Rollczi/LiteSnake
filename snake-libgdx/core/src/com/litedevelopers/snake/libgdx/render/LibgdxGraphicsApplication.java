@@ -9,10 +9,15 @@ import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -32,8 +37,8 @@ public class LibgdxGraphicsApplication extends Game {
 	private final GameSettings settings;
 	private final LibgdxPlayerInteraction playerInteraction;
 
-	Texture background;
 	Viewport viewport;
+	Texture background;
 	OrthographicCamera camera;
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
@@ -100,6 +105,7 @@ public class LibgdxGraphicsApplication extends Game {
 		playerInteraction.setDirection(new Position(touchPos.x, touchPos.y));
 		playerInteraction.setBoosting(Gdx.input.isKeyPressed(Input.Keys.SPACE));
 	}
+
 
 	private void renderElements() {
 		batch.setProjectionMatrix(camera.combined);
