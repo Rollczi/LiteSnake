@@ -87,8 +87,8 @@ public class SnakeGameEngine implements AutoCloseable{
             }
 
             this.schedule();
-            Duration between = Duration.between(last, Instant.now());
-            System.out.println(between.toMillis());
+/*            Duration between = Duration.between(last, Instant.now());
+            System.out.println(between.toMillis());*/
             last = Instant.now();
         }, TICK, TimeUnit.MILLISECONDS);
     }
@@ -123,8 +123,8 @@ public class SnakeGameEngine implements AutoCloseable{
 
             if (!players.contains(player)) {
                 this.snakeMap.killSnake(snake.getName());
-                this.eventHandler.call(new SnakeDeathEvent(snake, player));
                 this.snakeRelations.remove(snake);
+                this.eventHandler.call(new SnakeDeathEvent(snake, player));
                 continue;
             }
 

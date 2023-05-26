@@ -35,7 +35,7 @@ public class SnakeGameLibgdx {
         SnakeGameEngine snakeGameEngine = new SnakeGameEngine(eventHandler, settings);
         snakeGameEngine.registerPlayer(new Player("rollczi", state));
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 35; i++) {
             snakeGameEngine.registerPlayer(new AIPlayer("test" + i));
         }
 

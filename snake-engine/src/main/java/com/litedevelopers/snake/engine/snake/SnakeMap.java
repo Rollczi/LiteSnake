@@ -101,12 +101,12 @@ public final class SnakeMap extends BoundingBox {
                 continue;
             }
 
-            for (RotatedBox part : snake.getBodyParts()) {
-                if (filter.test(part)) {
-                    snakes.add(snake);
-                    continue root;
-                }
-            }
+//            for (RotatedBox part : snake.getBodyParts()) {
+//                if (filter.test(part)) {
+//                    snakes.add(snake);
+//                    continue root;
+//                }
+//            }
         }
 
         return snakes;

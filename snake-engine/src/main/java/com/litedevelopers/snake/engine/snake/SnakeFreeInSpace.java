@@ -34,6 +34,12 @@ class SnakeFreeInSpace implements Snake {
             direction = new Position(1, 1);
         }
 
+        double angle = direction.normalize().angle(head.direction());
+
+        if (angle > 10) {
+
+        }
+
         double size = partSize * 2;
         Position move = direction
                 .normalize()

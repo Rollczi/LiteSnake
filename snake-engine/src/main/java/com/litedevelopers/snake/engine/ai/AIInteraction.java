@@ -30,7 +30,7 @@ public class AIInteraction implements PlayerInteraction {
             return target;
         }
 
-        if (random.nextDouble() < 0.001) {
+        if (false && random.nextDouble() < 0.001) { // disabled
             for (Snake other : snakeMap.getSnakes()) {
                 if (other.equals(snake)) {
                     continue;
@@ -43,10 +43,12 @@ public class AIInteraction implements PlayerInteraction {
         }
 
         Position direction = snake.getHeadPosition();
-        double v = snake.getPartSize() * 16;
+        double v = snake.getPartSize() * 36;
 
         for (Snake other : snakeMap.getSnakes(rotatedBox -> rotatedBox.center().distance(snake.getHeadPosition()) < v)) {
-            direction = direction.add(headPosition.subtract(other.getHeadPosition()).multiple(2));
+            double distance = snake.getHeadPosition().distance(other.getHeadPosition());
+
+            direction = direction.add(headPosition.subtract(other.getHeadPosition()).multiple(distance * 0.003));
         }
 
         return direction;

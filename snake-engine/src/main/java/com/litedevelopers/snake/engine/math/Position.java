@@ -1,5 +1,6 @@
 package com.litedevelopers.snake.engine.math;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Position {
@@ -113,10 +114,10 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Position{" +
+        return "[" +
                 "x=" + x +
                 ", y=" + y +
-                '}';
+                ']';
     }
 
     @Override
@@ -138,6 +139,28 @@ public class Position {
 
     public boolean isNaN() {
         return Double.isNaN(x) || Double.isNaN(y);
+    }
+
+    public double angle(Position direction) {
+        double alfa = atan2(this.y, this.x);
+        double beta = atan2(direction.y, direction.x);
+        double angle = Math.abs(alfa - beta);
+
+        if (angle > 180) {
+            return 360 - angle;
+        }
+
+        return angle;
+    }
+
+    private double atan2(double y, double x) {
+        double angle = Math.toDegrees(Math.atan2(y, x));
+
+        if (angle < 0) {
+            return angle + 360;
+        }
+
+        return angle;
     }
 
 }
