@@ -87,30 +87,32 @@ public class SnakeGameEngine implements AutoCloseable{
             }
 
             this.schedule();
-            Duration between = Duration.between(last, Instant.now());
-            System.out.println(between.toMillis());
+//            Duration between = Duration.between(last, Instant.now());
+//            System.out.println(between.toMillis());
             last = Instant.now();
         }, TICK, TimeUnit.MILLISECONDS);
     }
 
     private void tick() {
         if (this.snakeMap.isClosed() || snakeMap.isEmpty()) {
-            this.eventHandler.call(new SnakeDeleteMapEvent(this.snakeMap));
-            this.snakeMap = new SnakeMap(Position.ZERO, new Position(this.gameSettings.mapWidth(), this.gameSettings.mapHeight()));
-            this.eventHandler.call(new SnakeCreateMapEvent(this.snakeMap));
-            this.fruitManager.setReach(this.snakeMap);
-
-            for (Player player : this.players) {
-                Snake snake = this.snakeMap.spawnSnake(player.getName(), gameSettings.headSize(), gameSettings.startLength());
-
-                this.snakeRelations.put(snake, player);
-                this.eventHandler.call(new SnakeSpawnEvent(snake));
-            }
+            startGame();
         }
-
 
         this.fruitManager.spawnFruit();
         this.moveTick();
+    }
+
+    public void startGame() {
+        this.snakeMap = new SnakeMap(Position.ZERO, new Position(this.gameSettings.mapWidth(), this.gameSettings.mapHeight()));
+        this.eventHandler.call(new SnakeCreateMapEvent(this.snakeMap));
+        this.fruitManager.setReach(this.snakeMap);
+
+        for (Player player : this.players) {
+            Snake snake = this.snakeMap.spawnSnake(player.getName(), gameSettings.headSize(), gameSettings.startLength());
+
+            this.snakeRelations.put(snake, player);
+            this.eventHandler.call(new SnakeSpawnEvent(snake));
+        }
     }
 
     private void moveTick() {
@@ -123,8 +125,8 @@ public class SnakeGameEngine implements AutoCloseable{
 
             if (!players.contains(player)) {
                 this.snakeMap.killSnake(snake.getName());
-                this.eventHandler.call(new SnakeDeathEvent(snake, player));
                 this.snakeRelations.remove(snake);
+                this.eventHandler.call(new SnakeDeathEvent(snake, player));
                 continue;
             }
 
@@ -162,6 +164,11 @@ public class SnakeGameEngine implements AutoCloseable{
     @Override
     public void close() {
         this.executorService.shutdown();
+    }
+
+    public void closeMap() {
+        snakeMap.closeMap();
+        this.eventHandler.call(new SnakeDeleteMapEvent(this.snakeMap));
     }
 
     public void shutdownNow() {

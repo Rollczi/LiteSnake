@@ -29,7 +29,6 @@ public class DesktopLauncher {
 		SnakeGameLibgdx snake = SnakeGameLibgdx.create(settings, application -> {
 			Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-
 			config.setTitle("LiteSnake");
 			config.setForegroundFPS(75);
 			config.setWindowedMode(1600, 960);

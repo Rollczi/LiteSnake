@@ -9,23 +9,31 @@ import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.litedevelopers.snake.engine.GameSettings;
+import com.litedevelopers.snake.engine.SnakeGameEngine;
+import com.litedevelopers.snake.engine.event.EventHandler;
+import com.litedevelopers.snake.engine.event.Listener;
+import com.litedevelopers.snake.engine.event.Subscribe;
+import com.litedevelopers.snake.engine.event.snake.SnakeDeathEvent;
 import com.litedevelopers.snake.engine.graphics.GraphicsElement;
 import com.litedevelopers.snake.engine.math.Position;
+import com.litedevelopers.snake.engine.player.Player;
 import com.litedevelopers.snake.engine.snake.SnakeMap;
 import com.litedevelopers.snake.libgdx.LibgdxPlayerInteraction;
+import com.litedevelopers.snake.libgdx.SnakeGameLibgdx;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,22 +44,33 @@ public class LibgdxGraphicsApplication extends Game {
 
 	private final GameSettings settings;
 	private final LibgdxPlayerInteraction playerInteraction;
+	private final EventHandler eventHandler;
+	private final SnakeGameEngine snakeGameEngine;
+
+	private boolean isPlayerDead = false;
 
 	Viewport viewport;
 	Texture background;
 	OrthographicCamera camera;
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
+	private Stage stage;
 
 	Map<GraphicsElement.Type, CustomTexture> elementsTextures;
 	final List<LibgdxElement> elements = Collections.synchronizedList(new ArrayList<>());
 
 	SnakeMap map = SnakeMap.CLOSED;
 
-	public LibgdxGraphicsApplication(GameSettings settings, LibgdxPlayerInteraction playerInteraction) {
+	public LibgdxGraphicsApplication(GameSettings settings, LibgdxPlayerInteraction playerInteraction, EventHandler eventHandler, SnakeGameEngine snakeGameEngine) {
 		this.settings = settings;
 		this.playerInteraction = playerInteraction;
+		this.eventHandler = eventHandler;
+		this.snakeGameEngine = snakeGameEngine;
+
+		eventHandler.registerListener(new DeathListener());
 	}
+
+	ImageButton button;
 
 	@Override
 	public void create() {
@@ -80,6 +99,30 @@ public class LibgdxGraphicsApplication extends Game {
 		Cursor cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
 		pixmap.dispose();
 		Gdx.graphics.setCursor(cursor);
+
+		Texture myTexture = new Texture(Gdx.files.internal("coconutReturn.png"));
+		TextureRegion myTextureRegion = new TextureRegion(myTexture);
+		TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+		myTexRegionDrawable.setMinSize(100f, 100f);
+		button = new ImageButton(myTexRegionDrawable); //Set the button up
+		button.addListener(new EventListener() {
+			@Override
+			public boolean handle(Event event) {
+
+				isPlayerDead = false;
+				snakeGameEngine.closeMap();
+				snakeGameEngine.startGame();
+
+				return true;
+			}
+		});
+
+		stage = new Stage(viewport); //Set up a stage for the ui
+		stage.addActor(button); //Add the button to the stage to perform rendering and take input.
+		Gdx.input.setInputProcessor(stage); //Start taking input from the ui
+
+
+
 	}
 
 	float angle = 0.0F;
@@ -94,8 +137,38 @@ public class LibgdxGraphicsApplication extends Game {
 
 		renderMap();
 		renderElements();
+		renderMenu();
 
 		camera.position.lerp(playerInteraction.getCamera(), 0.1F);
+	}
+
+	public class DeathListener implements Listener {
+		@Subscribe
+		public void onDeath(SnakeDeathEvent deathEvent) {
+			Player player = deathEvent.getPlayer();
+
+			if (!player.getUuid().equals(SnakeGameLibgdx.PLAYER_UUID)) {
+				return;
+			}
+
+			isPlayerDead = true;
+		}
+	}
+
+	private void renderMenu() {
+//		System.out.println("💀💀💀");
+
+		if (isPlayerDead) {
+			button.setPosition(
+					camera.position.x - button.getWidth() / 2 + settings.cameraWidth() / 3,
+					(camera.position.y - button.getHeight() / 2)
+
+			);
+			button.setScale(10f);
+			stage.act(Gdx.graphics.getDeltaTime()); //Perform ui logic
+			stage.draw(); //Draw the ui
+			System.out.println("💀💀💀");
+		}
 	}
 
 	private void readInput() {

@@ -113,6 +113,9 @@ public final class SnakeMap extends BoundingBox {
     }
 
     public void closeMap() {
+        for (String name : new HashSet<>(snakesByName.keySet())) {
+            killSnake(name);
+        }
         this.closed = true;
     }
 
